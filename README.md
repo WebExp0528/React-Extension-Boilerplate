@@ -1,13 +1,10 @@
 <div align="center">
   <h1>
-    Webpack React Extension Boilerplate  
+    React Extension Boilerplate  
   </h1>
 
   <p>
     <strong>Works for Chrome, Opera, Edge & Firefox.</strong>
-  </p>
-  <p>
-  This plugin is higly inspired by extension-boilerplate (https://github.com/EmailThis/extension-boilerplate)
   </p>
 </div>
 
