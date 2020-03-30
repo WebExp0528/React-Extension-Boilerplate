@@ -91,7 +91,7 @@ https://docs.microsoft.com/en-us/microsoft-edge/extensions/guides/adding-and-rem
 
 The following tasks can be used when you want to start developing the extension and want to enable live reload -
 
-- `npm run watch-dev`
+-   `npm run watch-dev`
 
 ## Packaging
 
