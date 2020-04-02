@@ -3,7 +3,8 @@ const {
     getOutput,
     getCopyPlugins,
     getFirefoxCopyPlugins,
-    getEntry
+    getEntry,
+    getResolves
 } = require("./webpack.utils");
 const config = require("./config.json");
 
@@ -43,7 +44,8 @@ const generalConfig = {
                 ]
             }
         ]
-    }
+    },
+    resolve: getResolves()
 };
 
 module.exports = [
