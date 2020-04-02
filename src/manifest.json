@@ -6,6 +6,8 @@
     "description": "__MSG_appDescription__",
     "icons": {
         "16": "assets/icons/icon-16.png",
+        "24": "assets/icons/icon-24.png",
+        "64": "assets/icons/icon-64.png",
         "128": "assets/icons/icon-128.png"
     },
     "default_locale": "en",
@@ -25,8 +27,8 @@
     },
     "browser_action": {
         "default_icon": {
-            "19": "assets/icons/icon-19.png",
-            "38": "assets/icons/icon-38.png"
+            "16": "assets/icons/icon-16.png",
+            "48": "assets/icons/icon-48.png"
         },
         "default_title": "Extension Boilerplate",
         "default_popup": "popup/index.html"
