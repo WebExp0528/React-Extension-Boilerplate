@@ -3,4 +3,3 @@ dist
 dev
 temp
 .idea
-*.~lock*
