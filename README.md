@@ -68,20 +68,20 @@
 
 ## Installation
 
-1. Clone the repository `git clone https://github.com/kamilogerto2/webpack-react-extension-boilerplate.git`
-2. Run `npm install`
-3. Run `npm run build`
+1. Clone the repository `git clone https://github.com/WebExp0528/React-Extension-Boilderplate.git`
+2. Run `npm install` or `yarn install`
+3. Run `npm run build` or `yarn build`
 
 ##### Load the extension in Chrome & Opera
 
 1. Open Chrome/Opera browser and navigate to chrome://extensions
 2. Select "Developer Mode" and then click "Load unpacked extension..."
-3. From the file browser, choose to `webpack-react-extension-boilerplate/dev/chrome` or (`wwebpack-react-extension-boilerplate/dev/opera`)
+3. From the file browser, choose to `React-Extension-Boilderplate/dev/chrome` or (`React-Extension-Boilderplate/dev/opera`)
 
 ##### Load the extension in Firefox
 
 1. Open Firefox browser and navigate to about:debugging
-2. Click "Load Temporary Add-on" and from the file browser, choose `webpack-react-extension-boilerplate/dev/firefox`
+2. Click "Load Temporary Add-on" and from the file browser, choose `React-Extension-Boilderplate/dev/firefox`
 
 ##### Load the extension in Edge
 
@@ -91,11 +91,11 @@ https://docs.microsoft.com/en-us/microsoft-edge/extensions/guides/adding-and-rem
 
 The following tasks can be used when you want to start developing the extension and want to enable live reload -
 
--   `npm run watch-dev`
+-   `npm run watch-dev` or `yarn watch-dev`
 
 ## Packaging
 
-Run `npm run build` to create a zipped, production-ready extension for each browser. You can then upload that to the appstore.
+Run `npm run build` or `yarn build` to create a zipped, production-ready extension for each browser. You can then upload that to the appstore.
 
 ---
 
