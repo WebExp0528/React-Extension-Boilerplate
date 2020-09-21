@@ -1,7 +1,7 @@
 {
-    "name": "webpack-react-extension-boilerplate",
+    "name": "react-extension-boilerplate",
     "version": "0.0.2",
-    "description": "Boilerplate for Chrome, FF, Opera exstension",
+    "description": "Boilerplate for Chrome, FF, Opera extension",
     "main": "webpack.config.js",
     "scripts": {
         "test": "karma start",
