@@ -1,4 +1,4 @@
-import ext from "./../utils/ext";
+import ext from "utils/ext";
 
 /**
  * Define content script functions
