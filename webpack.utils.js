@@ -35,7 +35,7 @@ const getEntry = (sourceDir = "src") => {
     return {
         popup: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/popup/popup.jsx`)
+            path.resolve(__dirname, `${sourceDir}/popup/index.jsx`)
         ],
         options: [
             "@babel/polyfill",
@@ -43,11 +43,11 @@ const getEntry = (sourceDir = "src") => {
         ],
         content: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/content/content.jsx`)
+            path.resolve(__dirname, `${sourceDir}/content/index.js`)
         ],
         background: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/background/background.js`)
+            path.resolve(__dirname, `${sourceDir}/background/index.js`)
         ],
         hotreload: path.resolve(__dirname, `${sourceDir}/utils/hot-reload.js`)
     };
@@ -121,7 +121,8 @@ const getResolves = () => {
             background: path.resolve(__dirname, "src/background/"),
             options: path.resolve(__dirname, "src/options/"),
             content: path.resolve(__dirname, "src/content/"),
-            assets: path.resolve(__dirname, "src/assets/")
+            assets: path.resolve(__dirname, "src/assets/"),
+            components: path.resolve(__dirname, "src/components")
         }
     };
 };
