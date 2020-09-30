@@ -53,6 +53,8 @@ Works for Chrome, Opera, Edge & Firefox.
 >> 1. Clone the repository `git clone https://github.com/WebExp0528/>React-Extension-Boilerplate.git`
 >> 2. Run `npm install` or `yarn install`
 >> 3. Run `npm run build` or `yarn build`
+>>
+>> Note: You can [download](https://github.com/WebExp0528/React-Extension-Boilerplate/releases/latest) build file
 >
 >### Load the extension in Chrome & Opera
 >
