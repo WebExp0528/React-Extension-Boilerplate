@@ -11,7 +11,7 @@ const getHTMLPlugins = (browserDir, outputDir = "dev", sourceDir = "src") => [
             `${outputDir}/${browserDir}/popup/index.html`
         ),
         template: `${sourceDir}/popup/index.html`,
-        chunks: ["popup"]
+        chunks: ["popup"],
     }),
     new HtmlWebpackPlugin({
         title: "Options",
@@ -20,14 +20,14 @@ const getHTMLPlugins = (browserDir, outputDir = "dev", sourceDir = "src") => [
             `${outputDir}/${browserDir}/options/index.html`
         ),
         template: `${sourceDir}/options/index.html`,
-        chunks: ["options"]
-    })
+        chunks: ["options"],
+    }),
 ];
 
 const getOutput = (browserDir, outputDir = "dev") => {
     return {
         path: path.resolve(__dirname, `${outputDir}/${browserDir}`),
-        filename: "[name]/[name].js"
+        filename: "[name]/[name].js",
     };
 };
 
@@ -35,21 +35,21 @@ const getEntry = (sourceDir = "src") => {
     return {
         popup: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/popup/index.jsx`)
+            path.resolve(__dirname, `${sourceDir}/popup/index.jsx`),
         ],
         options: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/options/options.jsx`)
+            path.resolve(__dirname, `${sourceDir}/options/options.jsx`),
         ],
         content: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/content/index.js`)
+            path.resolve(__dirname, `${sourceDir}/content/index.js`),
         ],
         background: [
             "@babel/polyfill",
-            path.resolve(__dirname, `${sourceDir}/background/index.js`)
+            path.resolve(__dirname, `${sourceDir}/background/index.js`),
         ],
-        hotreload: path.resolve(__dirname, `${sourceDir}/utils/hot-reload.js`)
+        hotreload: path.resolve(__dirname, `${sourceDir}/utils/hot-reload.js`),
     };
 };
 
@@ -57,20 +57,20 @@ const getCopyPlugins = (browserDir, outputDir = "dev", sourceDir = "src") => [
     new CopyWebpackPlugin([
         {
             from: `${sourceDir}/assets`,
-            to: path.resolve(__dirname, `${outputDir}/${browserDir}/assets`)
+            to: path.resolve(__dirname, `${outputDir}/${browserDir}/assets`),
         },
         {
             from: `${sourceDir}/_locales`,
-            to: path.resolve(__dirname, `${outputDir}/${browserDir}/_locales`)
+            to: path.resolve(__dirname, `${outputDir}/${browserDir}/_locales`),
         },
         {
             from: `${sourceDir}/manifest.json`,
             to: path.resolve(
                 __dirname,
                 `${outputDir}/${browserDir}/manifest.json`
-            )
-        }
-    ])
+            ),
+        },
+    ]),
 ];
 
 const getFirefoxCopyPlugins = (
@@ -81,20 +81,20 @@ const getFirefoxCopyPlugins = (
     new CopyWebpackPlugin([
         {
             from: `${sourceDir}/assets`,
-            to: path.resolve(__dirname, `${outputDir}/${browserDir}/assets`)
+            to: path.resolve(__dirname, `${outputDir}/${browserDir}/assets`),
         },
         {
             from: `${sourceDir}/_locales`,
-            to: path.resolve(__dirname, `${outputDir}/${browserDir}/_locales`)
+            to: path.resolve(__dirname, `${outputDir}/${browserDir}/_locales`),
         },
         {
             from: `${sourceDir}/manifest-ff.json`,
             to: path.resolve(
                 __dirname,
                 `${outputDir}/${browserDir}/manifest.json`
-            )
-        }
-    ])
+            ),
+        },
+    ]),
 ];
 
 const getZipPlugin = (browserDir, outputDir = "dist") =>
@@ -106,11 +106,11 @@ const getZipPlugin = (browserDir, outputDir = "dist") =>
             mtime: new Date(),
             mode: 0o100664,
             compress: true,
-            forceZip64Format: false
+            forceZip64Format: false,
         },
         zipOptions: {
-            forceZip64Format: false
-        }
+            forceZip64Format: false,
+        },
     });
 
 const getResolves = () => {
@@ -122,8 +122,8 @@ const getResolves = () => {
             options: path.resolve(__dirname, "src/options/"),
             content: path.resolve(__dirname, "src/content/"),
             assets: path.resolve(__dirname, "src/assets/"),
-            components: path.resolve(__dirname, "src/components")
-        }
+            components: path.resolve(__dirname, "src/components"),
+        },
     };
 };
 
@@ -134,5 +134,5 @@ module.exports = {
     getFirefoxCopyPlugins,
     getZipPlugin,
     getEntry,
-    getResolves
+    getResolves,
 };

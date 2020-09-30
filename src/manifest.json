@@ -1,7 +1,7 @@
 {
     "name": "__MSG_appName__",
     "author": "WebDEV",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "manifest_version": 2,
     "description": "__MSG_appDescription__",
     "icons": {

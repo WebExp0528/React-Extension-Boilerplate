@@ -21,13 +21,13 @@ const apis = [
     "tabs",
     "webNavigation",
     "webRequest",
-    "windows"
+    "windows",
 ];
 
 function Extension() {
     const self = this;
 
-    apis.forEach(api => {
+    apis.forEach((api) => {
         self[api] = null;
 
         try {

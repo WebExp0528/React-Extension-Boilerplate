@@ -4,7 +4,7 @@ const {
     getCopyPlugins,
     getFirefoxCopyPlugins,
     getEntry,
-    getResolves
+    getResolves,
 } = require("./webpack.utils");
 const config = require("./config.json");
 
@@ -18,34 +18,34 @@ const generalConfig = {
                 exclude: /node_modules/,
                 test: /\.(js|jsx)$/,
                 query: {
-                    presets: ["@babel/preset-env", "@babel/preset-react"]
+                    presets: ["@babel/preset-env", "@babel/preset-react"],
                 },
                 resolve: {
-                    extensions: [".js", ".jsx"]
-                }
+                    extensions: [".js", ".jsx"],
+                },
             },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: ["eslint-loader"]
+                use: ["eslint-loader"],
             },
             {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: "style-loader"
+                        loader: "style-loader",
                     },
                     {
-                        loader: "css-loader"
+                        loader: "css-loader",
                     },
                     {
-                        loader: "sass-loader"
-                    }
-                ]
-            }
-        ]
+                        loader: "sass-loader",
+                    },
+                ],
+            },
+        ],
     },
-    resolve: getResolves()
+    resolve: getResolves(),
 };
 
 module.exports = [
@@ -55,8 +55,8 @@ module.exports = [
         output: getOutput("chrome", config.devDirectory),
         plugins: [
             ...getHTMLPlugins("chrome", config.devDirectory, config.chromePath),
-            ...getCopyPlugins("chrome", config.devDirectory, config.chromePath)
-        ]
+            ...getCopyPlugins("chrome", config.devDirectory, config.chromePath),
+        ],
     },
     {
         ...generalConfig,
@@ -64,8 +64,8 @@ module.exports = [
         output: getOutput("opera", config.devDirectory),
         plugins: [
             ...getHTMLPlugins("opera", config.devDirectory, config.operaPath),
-            ...getCopyPlugins("opera", config.devDirectory, config.operaPath)
-        ]
+            ...getCopyPlugins("opera", config.devDirectory, config.operaPath),
+        ],
     },
     {
         ...generalConfig,
@@ -81,7 +81,7 @@ module.exports = [
                 "firefox",
                 config.devDirectory,
                 config.firefoxPath
-            )
-        ]
-    }
+            ),
+        ],
+    },
 ];
