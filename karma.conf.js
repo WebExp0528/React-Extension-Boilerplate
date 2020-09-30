@@ -1,11 +1,11 @@
-module.exports = function(config) {
+module.exports = function (config) {
     config.set({
         browsers: ["Chrome"], // run in Chrome
         singleRun: true, // just run once by default
         frameworks: ["mocha"], // use the mocha test framework
         files: [{ pattern: "webpack.tests.js", watched: false }],
         preprocessors: {
-            "webpack.tests.js": ["webpack", "sourcemap"]
+            "webpack.tests.js": ["webpack", "sourcemap"],
         },
         reporters: ["dots"], // report results in this format
         webpack: {
@@ -21,35 +21,35 @@ module.exports = function(config) {
                         query: {
                             presets: [
                                 "@babel/preset-env",
-                                "@babel/preset-react"
-                            ]
+                                "@babel/preset-react",
+                            ],
                         },
                         resolve: {
-                            extensions: [".js", ".jsx"]
-                        }
+                            extensions: [".js", ".jsx"],
+                        },
                     },
                     {
                         test: /\.scss$/,
                         use: [
                             {
-                                loader: "style-loader"
+                                loader: "style-loader",
                             },
                             {
-                                loader: "css-loader"
+                                loader: "css-loader",
                             },
                             {
-                                loader: "sass-loader"
-                            }
-                        ]
-                    }
-                ]
-            }
+                                loader: "sass-loader",
+                            },
+                        ],
+                    },
+                ],
+            },
         },
         plugins: [
             require("karma-mocha"),
             require("karma-webpack"),
             require("karma-sourcemap-loader"),
-            require("karma-chrome-launcher")
-        ]
+            require("karma-chrome-launcher"),
+        ],
     });
 };

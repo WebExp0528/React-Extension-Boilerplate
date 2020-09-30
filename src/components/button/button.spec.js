@@ -7,7 +7,7 @@ function sampleAction() {
     console.log("sampleAction");
 }
 
-describe("button", function() {
+describe("button", function () {
     it("renders without problems", () => {
         const button = TestUtils.renderIntoDocument(
             <div>

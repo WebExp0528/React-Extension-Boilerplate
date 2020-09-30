@@ -25,7 +25,7 @@ class Background {
         );
 
         //Add message listener from Extension
-        ext.extension.onConnect.addListener(port => this.onConnect(port));
+        ext.extension.onConnect.addListener((port) => this.onConnect(port));
 
         //Add Update listener for tab
         ext.tabs.onUpdated.addListener((tabId, changeInfo, tab) =>
@@ -33,7 +33,7 @@ class Background {
         );
 
         //Add New tab create listener
-        ext.tabs.onCreated.addListener(tab => this.onCreatedTab(tab));
+        ext.tabs.onCreated.addListener((tab) => this.onCreatedTab(tab));
     };
 
     //TODO: Listeners
@@ -64,10 +64,10 @@ class Background {
      *
      * @param {*} port
      */
-    onConnect = port => {
+    onConnect = (port) => {
         this._port = port;
         console.log("~~~~~Connected .....");
-        this._port.onMessage.addListener(msg =>
+        this._port.onMessage.addListener((msg) =>
             this.onMessageFromExtension(msg)
         );
     };
@@ -77,7 +77,7 @@ class Background {
      *
      * @param {*} msg
      */
-    onMessageFromExtension = msg => {
+    onMessageFromExtension = (msg) => {
         console.log("~~~~Recieved message from Popup:" + msg);
     };
 
@@ -85,7 +85,7 @@ class Background {
      *
      * @param {object} tab
      */
-    onCreatedTab = tab => {
+    onCreatedTab = (tab) => {
         console.log("~~~~~Created new tab", tab);
     };
 
@@ -104,9 +104,9 @@ class Background {
      * get url from tab
      * @param {number} tabid
      */
-    getURLFromTab = tabid => {
-        return new Promise(function(resolve, reject) {
-            ext.tabs.get(tabid, function(tab) {
+    getURLFromTab = (tabid) => {
+        return new Promise(function (resolve, reject) {
+            ext.tabs.get(tabid, function (tab) {
                 resolve(tab.url ? tab.url : "");
             });
         });
@@ -117,9 +117,9 @@ class Background {
      *
      * @param {string} url
      */
-    openNewTab = url => {
+    openNewTab = (url) => {
         return new Promise((resolve, reject) =>
-            ext.tabs.create({ url }, function(tab) {
+            ext.tabs.create({ url }, function (tab) {
                 resolve(tab);
             })
         );
@@ -129,7 +129,7 @@ class Background {
      * Close specific tab
      * @param {} tab
      */
-    closeTab = tab => {
+    closeTab = (tab) => {
         return new Promise((resolve, reject) =>
             ext.tabs.remove(tab.id, () => {
                 resolve();
@@ -142,7 +142,7 @@ class Background {
      */
     updateTab = (tab, options) => {
         return new Promise((resolve, reject) => {
-            ext.tabs.update(tab.id, options, function(updateTab) {
+            ext.tabs.update(tab.id, options, function (updateTab) {
                 resolve(updateTab);
             });
         });
@@ -151,9 +151,9 @@ class Background {
     /**
      * Get info from tabId
      */
-    getTab = tab => {
-        return new Promise(resolve => {
-            ext.tabs.get(tab.id, function(newTab) {
+    getTab = (tab) => {
+        return new Promise((resolve) => {
+            ext.tabs.get(tab.id, function (newTab) {
                 resolve(newTab);
             });
         });
@@ -164,7 +164,7 @@ class Background {
      */
     sendMessage = (tab, msg) => {
         return new Promise((resolve, reject) =>
-            ext.tabs.sendMessage(tab.id, msg, function(response) {
+            ext.tabs.sendMessage(tab.id, msg, function (response) {
                 resolve(response);
             })
         );
