@@ -1,5 +1,4 @@
 import ext from "./ext";
-import { MSG_TYPE } from "./constant";
 
 /**
  * MSG Types
