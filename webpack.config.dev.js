@@ -1,3 +1,4 @@
+const ESLintPlugin = require("eslint-webpack-plugin");
 const {
     getHTMLPlugins,
     getOutput,
@@ -6,6 +7,7 @@ const {
     getEntry,
     getResolves,
 } = require("./webpack.utils");
+
 const config = require("./config.json");
 
 const generalConfig = {
@@ -14,20 +16,22 @@ const generalConfig = {
     module: {
         rules: [
             {
-                loader: "babel-loader",
-                exclude: /node_modules/,
                 test: /\.(js|jsx)$/,
-                query: {
-                    presets: ["@babel/preset-env", "@babel/preset-react"],
-                },
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: [
+                                "@babel/preset-env",
+                                "@babel/preset-react",
+                            ],
+                        },
+                    },
+                ],
+                exclude: /node_modules/,
                 resolve: {
                     extensions: [".js", ".jsx"],
                 },
-            },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: ["eslint-loader"],
             },
             {
                 test: /\.scss$/,
@@ -48,12 +52,17 @@ const generalConfig = {
     resolve: getResolves(),
 };
 
+const eslintOptions = {
+    fix: true,
+};
+
 module.exports = [
     {
         ...generalConfig,
         entry: getEntry(config.chromePath),
         output: getOutput("chrome", config.devDirectory),
         plugins: [
+            new ESLintPlugin(eslintOptions),
             ...getHTMLPlugins("chrome", config.devDirectory, config.chromePath),
             ...getCopyPlugins("chrome", config.devDirectory, config.chromePath),
         ],
@@ -63,6 +72,7 @@ module.exports = [
         entry: getEntry(config.operaPath),
         output: getOutput("opera", config.devDirectory),
         plugins: [
+            new ESLintPlugin(eslintOptions),
             ...getHTMLPlugins("opera", config.devDirectory, config.operaPath),
             ...getCopyPlugins("opera", config.devDirectory, config.operaPath),
         ],
@@ -72,6 +82,7 @@ module.exports = [
         entry: getEntry(config.firefoxPath),
         output: getOutput("firefox", config.devDirectory),
         plugins: [
+            new ESLintPlugin(eslintOptions),
             ...getFirefoxCopyPlugins(
                 "firefox",
                 config.devDirectory,

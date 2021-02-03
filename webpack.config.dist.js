@@ -1,4 +1,5 @@
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const {
     getHTMLPlugins,
     getOutput,
@@ -9,27 +10,29 @@ const {
     getResolves,
 } = require("./webpack.utils");
 const config = require("./config.json");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const generalConfig = {
     mode: "production",
     module: {
         rules: [
             {
-                loader: "babel-loader",
-                exclude: /node_modules/,
                 test: /\.(js|jsx)$/,
-                query: {
-                    presets: ["@babel/preset-env", "@babel/preset-react"],
-                },
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: [
+                                "@babel/preset-env",
+                                "@babel/preset-react",
+                            ],
+                        },
+                    },
+                ],
+                exclude: /node_modules/,
                 resolve: {
                     extensions: [".js", ".jsx"],
                 },
-            },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: ["eslint-loader"],
             },
             {
                 test: /\.scss$/,
@@ -48,6 +51,18 @@ const generalConfig = {
         ],
     },
     resolve: getResolves(),
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                test: /\.js(\?.*)?$/i,
+            }),
+        ],
+    },
+};
+
+const eslintOptions = {
+    fix: true,
 };
 
 module.exports = [
@@ -56,8 +71,10 @@ module.exports = [
         output: getOutput("chrome", config.tempDirectory),
         entry: getEntry(config.chromePath),
         plugins: [
-            new CleanWebpackPlugin(["dist", "temp"]),
-            new UglifyJsPlugin(),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: ["dist", "temp"],
+            }),
+            new ESLintPlugin(eslintOptions),
             ...getHTMLPlugins(
                 "chrome",
                 config.tempDirectory,
@@ -76,8 +93,10 @@ module.exports = [
         output: getOutput("opera", config.tempDirectory),
         entry: getEntry(config.operaPath),
         plugins: [
-            new CleanWebpackPlugin(["dist", "temp"]),
-            new UglifyJsPlugin(),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: ["dist", "temp"],
+            }),
+            new ESLintPlugin(eslintOptions),
             ...getHTMLPlugins("opera", config.tempDirectory, config.operaPath),
             ...getCopyPlugins("opera", config.tempDirectory, config.operaPath),
             getZipPlugin("opera", config.distDirectory),
@@ -88,8 +107,10 @@ module.exports = [
         entry: getEntry(config.firefoxPath),
         output: getOutput("firefox", config.tempDirectory),
         plugins: [
-            new CleanWebpackPlugin(["dist", "temp"]),
-            new UglifyJsPlugin(),
+            new CleanWebpackPlugin({
+                cleanOnceBeforeBuildPatterns: ["dist", "temp"],
+            }),
+            new ESLintPlugin(eslintOptions),
             ...getHTMLPlugins(
                 "firefox",
                 config.tempDirectory,

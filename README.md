@@ -46,7 +46,7 @@ Works for Chrome, Opera, Edge & Firefox.
 >  As test runner we use karma, as testing framework mocha.
 >  As support to assertion we use chai.
 
-## Run & Installation 
+## Run & Installation
 
 >### Run & Build
 >
@@ -76,7 +76,7 @@ Works for Chrome, Opera, Edge & Firefox.
 
 >The following tasks can be used when you want to start developing the extension
 >and want to enable live reload -
->`npm run watch-dev` or `yarn watch-dev`
+>`npm run watch` or `yarn watch`
 
 ## Packaging
 
