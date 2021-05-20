@@ -2,6 +2,7 @@
     "compilerOptions": {
         "baseUrl": "./src",
         "jsx": "react",
+        "checkJs": true,
         "paths": {
             "utils": ["src/utils"],
             "popup": ["src/popup"],
