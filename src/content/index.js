@@ -2,12 +2,12 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import ext from "utils/ext";
+import browser from "webextension-polyfill";
 import MessageListener from "./messageListener";
 
 // import "./content.css";
 
-ext.runtime.onMessage.addListener(MessageListener);
+browser.runtime.onMessage.addListener(MessageListener);
 
 class Main extends React.Component {
     render() {

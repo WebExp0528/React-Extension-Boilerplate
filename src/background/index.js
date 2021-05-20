@@ -1,4 +1,4 @@
-import ext from "utils/ext";
+import browser from "webextension-polyfill";
 
 /**
  * Define content script functions
@@ -17,23 +17,23 @@ class Background {
         console.log("loaded Background Scripts");
 
         //When extension installed
-        ext.runtime.onInstalled.addListener(() => this.onInstalled());
+        browser.runtime.onInstalled.addListener(() => this.onInstalled());
 
         //Add message listener in Browser.
-        ext.runtime.onMessage.addListener((message, sender, reply) =>
+        browser.runtime.onMessage.addListener((message, sender, reply) =>
             this.onMessage(message, sender, reply)
         );
 
         //Add message listener from Extension
-        ext.extension.onConnect.addListener((port) => this.onConnect(port));
+        browser.extension.onConnect.addListener((port) => this.onConnect(port));
 
         //Add Update listener for tab
-        ext.tabs.onUpdated.addListener((tabId, changeInfo, tab) =>
+        browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) =>
             this.onUpdatedTab(tabId, changeInfo, tab)
         );
 
         //Add New tab create listener
-        ext.tabs.onCreated.addListener((tab) => this.onCreatedTab(tab));
+        browser.tabs.onCreated.addListener((tab) => this.onCreatedTab(tab));
     };
 
     //TODO: Listeners
@@ -106,7 +106,7 @@ class Background {
      */
     getURLFromTab = (tabid) => {
         return new Promise(function (resolve, reject) {
-            ext.tabs.get(tabid, function (tab) {
+            browser.tabs.get(tabid, function (tab) {
                 resolve(tab.url ? tab.url : "");
             });
         });
@@ -119,7 +119,7 @@ class Background {
      */
     openNewTab = (url) => {
         return new Promise((resolve, reject) =>
-            ext.tabs.create({ url }, function (tab) {
+            browser.tabs.create({ url }, function (tab) {
                 resolve(tab);
             })
         );
@@ -131,7 +131,7 @@ class Background {
      */
     closeTab = (tab) => {
         return new Promise((resolve, reject) =>
-            ext.tabs.remove(tab.id, () => {
+            browser.tabs.remove(tab.id, () => {
                 resolve();
             })
         );
@@ -142,7 +142,7 @@ class Background {
      */
     updateTab = (tab, options) => {
         return new Promise((resolve, reject) => {
-            ext.tabs.update(tab.id, options, function (updateTab) {
+            browser.tabs.update(tab.id, options, function (updateTab) {
                 resolve(updateTab);
             });
         });
@@ -164,7 +164,7 @@ class Background {
      */
     sendMessage = (tab, msg) => {
         return new Promise((resolve, reject) =>
-            ext.tabs.sendMessage(tab.id, msg, function (response) {
+            browser.tabs.sendMessage(tab.id, msg, function (response) {
                 resolve(response);
             })
         );

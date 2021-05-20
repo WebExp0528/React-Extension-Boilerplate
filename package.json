@@ -29,12 +29,12 @@
         "sass-loader": "^11.1.1",
         "style-loader": "^2.0.0",
         "terser-webpack-plugin": "^5.1.2",
+        "webextension-polyfill": "^0.8.0",
         "webpack": "^5.37.1",
         "webpack-cli": "^4.7.0",
         "zip-webpack-plugin": "^4.0.1"
     },
     "devDependencies": {
-        "prettier": "^2.3.0",
         "eslint": "^7.26.0",
         "eslint-config-airbnb": "^18.2.1",
         "eslint-config-prettier": "^8.3.0",
@@ -44,7 +44,8 @@
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-react": "^7.23.2",
         "eslint-plugin-react-hooks": "^4.2.0",
-        "eslint-webpack-plugin": "^2.5.4"
+        "eslint-webpack-plugin": "^2.5.4",
+        "prettier": "^2.3.0"
     },
     "license": "SEE LICENSE IN LICENSE",
     "repository": {
