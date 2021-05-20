@@ -2,6 +2,8 @@
     "compilerOptions": {
         "baseUrl": "./src",
         "jsx": "react",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
         "paths": {
             "utils": ["src/utils"],
             "popup": ["src/popup"],

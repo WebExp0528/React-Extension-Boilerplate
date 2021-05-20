@@ -1,4 +1,4 @@
-import ext from "./ext";
+import browser from "webextension-polyfill";
 
 /**
  * MSG Types
@@ -21,7 +21,7 @@ export const sendMessage = async (msgType, message) => {
     console.log("===== Sending Message => ", msg);
     return new Promise((resolve, reject) => {
         try {
-            ext.runtime.sendMessage(msg, (response) => {
+            browser.runtime.sendMessage(msg, (response) => {
                 resolve(response);
             });
         } catch (e) {

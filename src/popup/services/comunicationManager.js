@@ -1,8 +1,8 @@
-import ext from "../../utils/ext";
+import browser from "webextension-polyfill";
 
 export default function sendMessage(message, data) {
-    ext.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    browser.tabs.query({ active: true, currentWindow: true }).then((tabs) => {
         const activeTab = tabs[0];
-        ext.tabs.sendMessage(activeTab.id, { action: message, data });
+        browser.tabs.sendMessage(activeTab.id, { action: message, data });
     });
 }
