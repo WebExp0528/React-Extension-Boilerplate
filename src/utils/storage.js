@@ -1,3 +1,5 @@
-import ext from "./ext";
+import browser from "webextension-polyfill";
 
-module.exports = ext.storage.sync ? ext.storage.sync : ext.storage.local;
+module.exports = browser.storage.sync
+    ? browser.storage.sync
+    : browser.storage.local;
