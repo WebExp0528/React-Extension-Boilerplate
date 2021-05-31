@@ -153,7 +153,7 @@ class Background {
      */
     getTab = (tab) => {
         return new Promise((resolve) => {
-            ext.tabs.get(tab.id, function (newTab) {
+            browser.tabs.get(tab.id, function (newTab) {
                 resolve(newTab);
             });
         });
