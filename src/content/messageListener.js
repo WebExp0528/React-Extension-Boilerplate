@@ -1,6 +1,6 @@
 export const onRequest = (request) => {
-    if (request.action === "change-color") {
-        document.body.style.background = request.data.color;
+    if (request.msgType === "change-color") {
+        document.body.style.background = request.color;
     }
 };
 

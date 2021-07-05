@@ -22,10 +22,7 @@ const generalConfig = {
                     {
                         loader: "babel-loader",
                         options: {
-                            presets: [
-                                "@babel/preset-env",
-                                "@babel/preset-react",
-                            ],
+                            presets: ["@babel/preset-env", "@babel/preset-react"],
                         },
                     },
                 ],
@@ -75,16 +72,8 @@ module.exports = [
                 cleanOnceBeforeBuildPatterns: ["dist", "temp"],
             }),
             new ESLintPlugin(eslintOptions),
-            ...getHTMLPlugins(
-                "chrome",
-                config.tempDirectory,
-                config.chromePath
-            ),
-            ...getCopyPlugins(
-                "chrome",
-                config.tempDirectory,
-                config.chromePath
-            ),
+            ...getHTMLPlugins("chrome", config.tempDirectory, config.chromePath),
+            ...getCopyPlugins("chrome", config.tempDirectory, config.chromePath),
             getZipPlugin("chrome", config.distDirectory),
         ],
     },
@@ -111,16 +100,8 @@ module.exports = [
                 cleanOnceBeforeBuildPatterns: ["dist", "temp"],
             }),
             new ESLintPlugin(eslintOptions),
-            ...getHTMLPlugins(
-                "firefox",
-                config.tempDirectory,
-                config.firefoxPath
-            ),
-            ...getFirefoxCopyPlugins(
-                "firefox",
-                config.tempDirectory,
-                config.firefoxPath
-            ),
+            ...getHTMLPlugins("firefox", config.tempDirectory, config.firefoxPath),
+            ...getFirefoxCopyPlugins("firefox", config.tempDirectory, config.firefoxPath),
             getZipPlugin("firefox", config.distDirectory),
         ],
     },

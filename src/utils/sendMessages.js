@@ -9,26 +9,43 @@ export const MSG_TYPE = {
 };
 
 /**
+ * gen message
+ *
+ * @param { keyof MSG_TYPE } msgType
+ * @param { {[string]:any} } message
+ */
+const genMessage = (msgType, message) => {
+    return {
+        msgType,
+        ...message,
+    };
+};
+
+/**
  * Send Message to background script
+ *
  * @param { keyof MSG_TYPE } msgType
  * @param { {[string]:any} } message
  */
 export const sendMessage = async (msgType, message) => {
-    const msg = {
-        msgType,
-        ...message,
-    };
-    console.log("===== Sending Message => ", msg);
-    return new Promise((resolve, reject) => {
-        try {
-            browser.runtime.sendMessage(msg, (response) => {
-                resolve(response);
-            });
-        } catch (e) {
-            console.log(" SendMessage Failed => ", e);
-            reject(e);
-        }
-    });
+    try {
+        console.log("===== Sending Message => ", msg);
+        const res = await browser.runtime.sendMessage(genMessage(msgType, message));
+        return res;
+    } catch (e) {
+        console.log("[===== Error in SendMessage =====]", e);
+        return null;
+    }
 };
 
-export default sendMessage;
+export const sendMessageToActiveTab = async (msgType, message) => {
+    try {
+        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+        const activeTab = tabs[0];
+        const res = await browser.tabs.sendMessage(activeTab.id, genMessage(msgType, message));
+        return res;
+    } catch (error) {
+        console.log("[===== Error in sendMessageToActiveTab =====]", error);
+        return null;
+    }
+};

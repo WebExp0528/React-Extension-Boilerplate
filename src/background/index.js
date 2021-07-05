@@ -1,7 +1,7 @@
 import browser from "webextension-polyfill";
 
 /**
- * Define content script functions
+ * Define background script functions
  * @type {class}
  */
 class Background {
@@ -11,29 +11,26 @@ class Background {
 
     /**
      * Document Ready
+     *
      * @returns {void}
      */
     init = () => {
-        console.log("loaded Background Scripts");
+        console.log("[===== Loaded Background Scripts =====]");
 
         //When extension installed
-        browser.runtime.onInstalled.addListener(() => this.onInstalled());
+        browser.runtime.onInstalled.addListener(this.onInstalled);
 
         //Add message listener in Browser.
-        browser.runtime.onMessage.addListener((message, sender, reply) =>
-            this.onMessage(message, sender, reply)
-        );
+        browser.runtime.onMessage.addListener(this.onMessage);
 
-        //Add message listener from Extension
-        browser.extension.onConnect.addListener((port) => this.onConnect(port));
+        //Add message listener from Long Live Connection
+        browser.extension.onConnect.addListener(this.onConnect);
 
         //Add Update listener for tab
-        browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) =>
-            this.onUpdatedTab(tabId, changeInfo, tab)
-        );
+        browser.tabs.onUpdated.addListener(this.onUpdatedTab);
 
         //Add New tab create listener
-        browser.tabs.onCreated.addListener((tab) => this.onCreatedTab(tab));
+        browser.tabs.onCreated.addListener(this.onCreatedTab);
     };
 
     //TODO: Listeners
@@ -42,7 +39,7 @@ class Background {
      * Extension Installed
      */
     onInstalled = () => {
-        console.log("~~~~~Installed Extension!");
+        console.log("[===== Installed Extension!] =====");
     };
 
     /**
@@ -50,13 +47,17 @@ class Background {
      *
      * @param { object } message
      * @param { object } sender
-     * @param { object } reply
      */
-    onMessage = (message, sender, reply) => {
-        console.log("~~~~~Received message", message);
-        switch (message.type) {
+    onMessage = async (message, sender) => {
+        try {
+            console.log("[===== Received message =====]", message, sender);
+            switch (message.type) {
+            }
+            return true; // result to reply
+        } catch (error) {
+            console.log("[===== Error in MessageListener =====]", error);
+            return error;
         }
-        return true;
     };
 
     /**
@@ -66,19 +67,17 @@ class Background {
      */
     onConnect = (port) => {
         this._port = port;
-        console.log("~~~~~Connected .....");
-        this._port.onMessage.addListener((msg) =>
-            this.onMessageFromExtension(msg)
-        );
+        console.log("[===== Connected Long Live Connection =====]");
+        this._port.onMessage.addListener((msg) => this.onMessageFromExtension(msg));
     };
 
     /**
-     * Message from Extension
+     * Message from Long Live Connection
      *
      * @param {*} msg
      */
     onMessageFromExtension = (msg) => {
-        console.log("~~~~Recieved message from Popup:" + msg);
+        console.log("[===== Message from Long Live Connection =====]");
     };
 
     /**
@@ -86,7 +85,7 @@ class Background {
      * @param {object} tab
      */
     onCreatedTab = (tab) => {
-        console.log("~~~~~Created new tab", tab);
+        console.log("[===== New Tab Created =====]", tab);
     };
 
     /**
@@ -97,77 +96,63 @@ class Background {
      * @param {*} tab
      */
     onUpdatedTab = (tabId, changeInfo, tab) => {
-        console.log("~~~~~Changed tab", tabId);
+        console.log("[===== Tab Created =====]", tabId);
     };
 
     /**
-     * get url from tab
-     * @param {number} tabid
+     * Get url from tabId
+     *
+     * @param {number} tabId
      */
-    getURLFromTab = (tabid) => {
-        return new Promise(function (resolve, reject) {
-            browser.tabs.get(tabid, function (tab) {
-                resolve(tab.url ? tab.url : "");
-            });
-        });
+    getURLFromTab = async (tabId) => {
+        try {
+            const tab = await browser.tabs.get(tabId);
+            return tab.url || "";
+        } catch (error) {
+            console.log(`[===== Could not get Tab Info$(tabId) in getURLFromTab =====]`, error);
+            throw "";
+        }
     };
 
     /**
-     * open new tab
+     * Open new tab by url
      *
      * @param {string} url
      */
-    openNewTab = (url) => {
-        return new Promise((resolve, reject) =>
-            browser.tabs.create({ url }, function (tab) {
-                resolve(tab);
-            })
-        );
+    openNewTab = async (url) => {
+        try {
+            const tab = await browser.tabs.create({ url });
+            return tab;
+        } catch (error) {
+            console.log(`[===== Error in openNewTab =====]`, error);
+            return null;
+        }
     };
 
     /**
      * Close specific tab
-     * @param {} tab
+     *
+     * @param {number} tab
      */
-    closeTab = (tab) => {
-        return new Promise((resolve, reject) =>
-            browser.tabs.remove(tab.id, () => {
-                resolve();
-            })
-        );
-    };
-
-    /**
-     * Update Tab
-     */
-    updateTab = (tab, options) => {
-        return new Promise((resolve, reject) => {
-            browser.tabs.update(tab.id, options, function (updateTab) {
-                resolve(updateTab);
-            });
-        });
-    };
-
-    /**
-     * Get info from tabId
-     */
-    getTab = (tab) => {
-        return new Promise((resolve) => {
-            browser.tabs.get(tab.id, function (newTab) {
-                resolve(newTab);
-            });
-        });
+    closeTab = async (tab) => {
+        try {
+            await browser.tabs.remove(tab.id);
+        } catch (error) {
+            console.log(`[===== Error in closeTab =====]`, error);
+        }
     };
 
     /**
      * send message
      */
-    sendMessage = (tab, msg) => {
-        return new Promise((resolve, reject) =>
-            browser.tabs.sendMessage(tab.id, msg, function (response) {
-                resolve(response);
-            })
-        );
+    sendMessage = async (tab, msg) => {
+        try {
+            const res = await browser.tabs.sendMessage(tab.id, msg);
+            return res;
+        } catch (error) {
+            console.log(`[===== Error in sendMessage =====]`, error);
+            return null;
+        }
     };
 }
 

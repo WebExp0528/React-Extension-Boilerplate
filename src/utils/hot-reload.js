@@ -7,11 +7,7 @@ const filesInDirectory = (dir) =>
                 entries
                     .filter((e) => e.name[0] !== ".")
                     .map((e) =>
-                        e.isDirectory
-                            ? filesInDirectory(e)
-                            : new Promise((resolvePromise) =>
-                                  e.file(resolvePromise)
-                              )
+                        e.isDirectory ? filesInDirectory(e) : new Promise((resolvePromise) => e.file(resolvePromise))
                     )
             )
                 .then((files) => [].concat(...files))
@@ -20,9 +16,7 @@ const filesInDirectory = (dir) =>
     );
 
 const timestampForFilesInDirectory = (dir) =>
-    filesInDirectory(dir).then((files) =>
-        files.map((f) => f.name + f.lastModifiedDate).join()
-    );
+    filesInDirectory(dir).then((files) => files.map((f) => f.name + f.lastModifiedDate).join());
 
 const reload = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
