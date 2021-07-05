@@ -1,13 +1,13 @@
 import React from "react";
 import Button from "components/Button";
-import sendMessage from "./services/comunicationManager";
+import { sendMessageToActiveTab } from "utils/sendMessages";
 
 function setGreen() {
-    sendMessage("change-color", { color: "green" });
+    sendMessageToActiveTab("change-color", { color: "green" });
 }
 
 function setRed() {
-    sendMessage("change-color", { color: "red" });
+    sendMessageToActiveTab("change-color", { color: "red" });
 }
 
 export const Popup = () => (

@@ -21,10 +21,7 @@ const generalConfig = {
                     {
                         loader: "babel-loader",
                         options: {
-                            presets: [
-                                "@babel/preset-env",
-                                "@babel/preset-react",
-                            ],
+                            presets: ["@babel/preset-env", "@babel/preset-react"],
                         },
                     },
                 ],
@@ -83,16 +80,8 @@ module.exports = [
         output: getOutput("firefox", config.devDirectory),
         plugins: [
             new ESLintPlugin(eslintOptions),
-            ...getFirefoxCopyPlugins(
-                "firefox",
-                config.devDirectory,
-                config.firefoxPath
-            ),
-            ...getHTMLPlugins(
-                "firefox",
-                config.devDirectory,
-                config.firefoxPath
-            ),
+            ...getFirefoxCopyPlugins("firefox", config.devDirectory, config.firefoxPath),
+            ...getHTMLPlugins("firefox", config.devDirectory, config.firefoxPath),
         ],
     },
 ];

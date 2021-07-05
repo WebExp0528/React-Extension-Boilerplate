@@ -6,19 +6,13 @@ const path = require("path");
 const getHTMLPlugins = (browserDir, outputDir = "dev", sourceDir = "src") => [
     new HtmlWebpackPlugin({
         title: "Popup",
-        filename: path.resolve(
-            __dirname,
-            `${outputDir}/${browserDir}/popup/index.html`
-        ),
+        filename: path.resolve(__dirname, `${outputDir}/${browserDir}/popup/index.html`),
         template: `${sourceDir}/popup/index.html`,
         chunks: ["popup"],
     }),
     new HtmlWebpackPlugin({
         title: "Options",
-        filename: path.resolve(
-            __dirname,
-            `${outputDir}/${browserDir}/options/index.html`
-        ),
+        filename: path.resolve(__dirname, `${outputDir}/${browserDir}/options/index.html`),
         template: `${sourceDir}/options/index.html`,
         chunks: ["options"],
     }),
@@ -36,9 +30,7 @@ const getEntry = (sourceDir = "src") => {
         popup: [path.resolve(__dirname, `${sourceDir}/popup/index.jsx`)],
         options: [path.resolve(__dirname, `${sourceDir}/options/options.jsx`)],
         content: [path.resolve(__dirname, `${sourceDir}/content/index.js`)],
-        background: [
-            path.resolve(__dirname, `${sourceDir}/background/index.js`),
-        ],
+        background: [path.resolve(__dirname, `${sourceDir}/background/index.js`)],
         hotreload: path.resolve(__dirname, `${sourceDir}/utils/hot-reload.js`),
     };
 };
@@ -48,56 +40,34 @@ const getCopyPlugins = (browserDir, outputDir = "dev", sourceDir = "src") => [
         patterns: [
             {
                 from: `${sourceDir}/assets`,
-                to: path.resolve(
-                    __dirname,
-                    `${outputDir}/${browserDir}/assets`
-                ),
+                to: path.resolve(__dirname, `${outputDir}/${browserDir}/assets`),
             },
             {
                 from: `${sourceDir}/_locales`,
-                to: path.resolve(
-                    __dirname,
-                    `${outputDir}/${browserDir}/_locales`
-                ),
+                to: path.resolve(__dirname, `${outputDir}/${browserDir}/_locales`),
             },
             {
                 from: `${sourceDir}/manifest.json`,
-                to: path.resolve(
-                    __dirname,
-                    `${outputDir}/${browserDir}/manifest.json`
-                ),
+                to: path.resolve(__dirname, `${outputDir}/${browserDir}/manifest.json`),
             },
         ],
     }),
 ];
 
-const getFirefoxCopyPlugins = (
-    browserDir,
-    outputDir = "dev",
-    sourceDir = "src"
-) => [
+const getFirefoxCopyPlugins = (browserDir, outputDir = "dev", sourceDir = "src") => [
     new CopyWebpackPlugin({
         patterns: [
             {
                 from: `${sourceDir}/assets`,
-                to: path.resolve(
-                    __dirname,
-                    `${outputDir}/${browserDir}/assets`
-                ),
+                to: path.resolve(__dirname, `${outputDir}/${browserDir}/assets`),
             },
             {
                 from: `${sourceDir}/_locales`,
-                to: path.resolve(
-                    __dirname,
-                    `${outputDir}/${browserDir}/_locales`
-                ),
+                to: path.resolve(__dirname, `${outputDir}/${browserDir}/_locales`),
             },
             {
                 from: `${sourceDir}/manifest-ff.json`,
-                to: path.resolve(
-                    __dirname,
-                    `${outputDir}/${browserDir}/manifest.json`
-                ),
+                to: path.resolve(__dirname, `${outputDir}/${browserDir}/manifest.json`),
             },
         ],
     }),
