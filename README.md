@@ -12,18 +12,21 @@ Works for Chrome, Opera, Edge & Firefox.
 >
 >- ___Write once and deploy to Chrome, Opera, Edge & Firefox___
 >
->   Based on WebExtensions. It also includes a tiny polyfill to bring uniformity
-> to the APIs exposed by different browsers.
+>   Based on `webextension-polyfill-ts`. It also includes a tiny polyfill to bring uniformity to the APIs exposed by different browsers.
 >
 >- ___Live-reload___
 >
 >   Your changes to CSS, HTML & JS files will be relayed instantly without having
 >   to manually reload the extension. This ends up saving a lot of time and
->   improving the developer experience. Based on <https://github.com/xpl/crx-hotreload>
+>   improving the developer experience. Based on `web-ext-reloader`
 >
 >- ___Newest js technology stack___
 >
->   You can use ES6, ES5.
+>   You can use `Typescript` or `Babel`
+>
+>- ___Profiling JS Packages___
+>
+> ![Profile](preview/profile-chrome.png)
 >
 >- ___Comfortable styles import___
 >
@@ -50,9 +53,9 @@ Works for Chrome, Opera, Edge & Firefox.
 
 >### Run & Build
 >
->> 1. Clone the repository `git clone https://github.com/WebExp0528/>React-Extension-Boilerplate.git`
+>> 1. Clone the repository `git clone https://github.com/WebExp0528/>React-Extension-Boilerplate.git`. If you want to use Babel, `git clone --single-branch --branch babel https://github.com/WebExp0528/React-Extension-Boilerplate.git`
 >> 2. Run `npm install` or `yarn install`
->> 3. Run `npm run build` or `yarn build`
+>> 3. Run `npm run build:{target browser}` or `yarn build:{target browser}`. EX: `yarn build:chrome`
 >>
 >> Note: You can [download](https://github.com/WebExp0528/React-Extension-Boilerplate/releases/latest) build file
 >
@@ -76,13 +79,21 @@ Works for Chrome, Opera, Edge & Firefox.
 
 >The following tasks can be used when you want to start developing the extension
 >and want to enable live reload -
->`npm run watch` or `yarn watch`
+>`npm run dev:{target browser}` or `yarn watch:{target browser}`
+
+## Profiling
+
+> Run `npm run profile:{target browser}` or `yarn profile:{target browser}`
 
 ## Packaging
 
->Run `npm run build` or `yarn build` to create a zipped,
+>Run `npm run build:{target browser}` or `yarn build:{target browser}` to create a zipped,
 production-ready extension for each browser.
 You can then upload that to the app store.
+
+## Available Target Browsers
+
+> `chrome` `firefox` `opera` `edge`
 
 ---
 
