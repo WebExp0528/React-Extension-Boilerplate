@@ -18,7 +18,7 @@
         }
     ],
     "background": {
-        "scripts": ["background/background.js", "hotreload/hotreload.js"],
+        "scripts": ["background/background.js"],
         "persistent": true
     },
     "permissions": ["tabs", "storage", "http://*/*", "https://*/*"],
