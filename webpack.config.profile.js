@@ -1,6 +1,4 @@
-const webpack = require("webpack");
-const ExtReloader = require("webpack-ext-reloader");
-
+const ESLintPlugin = require("eslint-webpack-plugin");
 const {
     getHTMLPlugins,
     getOutput,
@@ -9,10 +7,13 @@ const {
     getResolves,
     getDefinePlugins,
     getCleanWebpackPlugin,
+    getAnalyzerPlugin,
     config,
-    getExtensionManifestPlugin,
-    getEslintPlugin,
 } = require("./webpack.utils");
+const webpack = require("webpack");
+
+const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
+const baseManifest = require("./src/baseManifest.json");
 
 const NODE_ENV = "development";
 const TARGET = process.env.TARGET;
@@ -24,9 +25,18 @@ const generalConfig = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                use: [{ loader: "babel-loader", options: { presets: ["@babel/preset-env", "@babel/preset-react"] } }],
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options: {
+                            presets: ["@babel/preset-env", "@babel/preset-react"],
+                        },
+                    },
+                ],
                 exclude: /node_modules/,
-                resolve: { extensions: [".js", ".jsx"] },
+                resolve: {
+                    extensions: [".js", ".jsx"],
+                },
             },
             {
                 test: /\.scss$/,
@@ -51,35 +61,28 @@ const generalConfig = {
         errors: true,
         hash: true,
     },
-    watch: true,
-    watchOptions: {
-        aggregateTimeout: 200,
-        poll: 1000,
-    },
+};
+
+const eslintOptions = {
+    fix: true,
 };
 
 module.exports = [
     {
         ...generalConfig,
-        entry: getEntry(config?.SRC_DIR ?? "src"),
-        output: getOutput(TARGET, config?.DEV_DIR ?? "dev"),
+        entry: getEntry(config.SRC_DIR),
+        output: getOutput(TARGET, config.DEV_DIR),
         plugins: [
-            ...getCleanWebpackPlugin(TARGET, config?.DEV_DIR ?? "dev"),
+            ...getCleanWebpackPlugin(TARGET, config.DEV_DIR),
             new webpack.ProgressPlugin(),
-            ...getEslintPlugin(),
+            new ESLintPlugin(eslintOptions),
             ...getDefinePlugins({ NODE_ENV }),
-            ...getHTMLPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? "src"),
-            ...getCopyPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? "src"),
-            ...getExtensionManifestPlugin(),
-            new ExtReloader({
-                port: 9090,
-                reloadPage: true,
-                entries: {
-                    contentScript: ["content"],
-                    background: "background",
-                    extensionPage: ["popup", "options"],
-                },
+            ...getHTMLPlugins(TARGET, config.DEV_DIR, config.SRC_DIR),
+            ...getCopyPlugins(TARGET, config.DEV_DIR, config.SRC_DIR),
+            new WebpackExtensionManifestPlugin({
+                config: { base: baseManifest },
             }),
+            ...getAnalyzerPlugin(),
         ],
     },
 ];
