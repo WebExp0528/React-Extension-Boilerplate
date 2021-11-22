@@ -1,10 +1,11 @@
-import browser from "webextension-polyfill";
+import { browser, Tabs, Runtime } from 'webextension-polyfill-ts';
 
 /**
  * Define background script functions
  * @type {class}
  */
 class Background {
+    _port: number;
     constructor() {
         this.init();
     }
@@ -15,16 +16,13 @@ class Background {
      * @returns {void}
      */
     init = () => {
-        console.log("[===== Loaded Background Scripts =====]");
+        console.log('[===== Loaded Background Scripts =====]');
 
         //When extension installed
         browser.runtime.onInstalled.addListener(this.onInstalled);
 
         //Add message listener in Browser.
         browser.runtime.onMessage.addListener(this.onMessage);
-
-        //Add message listener from Long Live Connection
-        browser.extension.onConnect.addListener(this.onConnect);
 
         //Add Update listener for tab
         browser.tabs.onUpdated.addListener(this.onUpdatedTab);
@@ -39,53 +37,43 @@ class Background {
      * Extension Installed
      */
     onInstalled = () => {
-        console.log("[===== Installed Extension!] =====");
+        console.log('[===== Installed Extension!] =====');
     };
 
     /**
      * Message Handler Function
      *
-     * @param { object } message
-     * @param { object } sender
+     * @param message
+     * @param sender
+     * @returns
      */
-    onMessage = async (message, sender) => {
+    onMessage = async (message: EXTMessage, sender: Runtime.MessageSender) => {
         try {
-            console.log("[===== Received message =====]", message, sender);
+            console.log('[===== Received message =====]', message, sender);
             switch (message.type) {
             }
             return true; // result to reply
         } catch (error) {
-            console.log("[===== Error in MessageListener =====]", error);
+            console.log('[===== Error in MessageListener =====]', error);
             return error;
         }
     };
 
     /**
-     * Connect with Extension
-     *
-     * @param {*} port
-     */
-    onConnect = (port) => {
-        this._port = port;
-        console.log("[===== Connected Long Live Connection =====]");
-        this._port.onMessage.addListener((msg) => this.onMessageFromExtension(msg));
-    };
-
-    /**
      * Message from Long Live Connection
      *
-     * @param {*} msg
+     * @param msg
      */
-    onMessageFromExtension = (msg) => {
-        console.log("[===== Message from Long Live Connection =====]");
+    onMessageFromExtension = (msg: EXTMessage) => {
+        console.log('[===== Message from Long Live Connection =====]');
     };
 
     /**
      *
-     * @param {object} tab
+     * @param tab
      */
-    onCreatedTab = (tab) => {
-        console.log("[===== New Tab Created =====]", tab);
+    onCreatedTab = (tab: Tabs.Tab) => {
+        console.log('[===== New Tab Created =====]', tab);
     };
 
     /**
@@ -95,31 +83,29 @@ class Background {
      * @param {*} changeInfo
      * @param {*} tab
      */
-    onUpdatedTab = (tabId, changeInfo, tab) => {
-        console.log("[===== Tab Created =====]", tabId);
+    onUpdatedTab = (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
+        console.log('[===== Tab Created =====]', tabId);
     };
 
     /**
      * Get url from tabId
      *
-     * @param {number} tabId
      */
-    getURLFromTab = async (tabId) => {
+    getURLFromTab = async (tabId: number) => {
         try {
             const tab = await browser.tabs.get(tabId);
-            return tab.url || "";
+            return tab.url || '';
         } catch (error) {
             console.log(`[===== Could not get Tab Info$(tabId) in getURLFromTab =====]`, error);
-            throw "";
+            throw '';
         }
     };
 
     /**
      * Open new tab by url
      *
-     * @param {string} url
      */
-    openNewTab = async (url) => {
+    openNewTab = async (url: string) => {
         try {
             const tab = await browser.tabs.create({ url });
             return tab;
@@ -134,9 +120,9 @@ class Background {
      *
      * @param {number} tab
      */
-    closeTab = async (tab) => {
+    closeTab = async (tab: Tabs.Tab) => {
         try {
-            await browser.tabs.remove(tab.id);
+            await browser.tabs.remove(tab.id ?? 0);
         } catch (error) {
             console.log(`[===== Error in closeTab =====]`, error);
         }
@@ -145,9 +131,9 @@ class Background {
     /**
      * send message
      */
-    sendMessage = async (tab, msg) => {
+    sendMessage = async (tab: Tabs.Tab, msg: EXTMessage) => {
         try {
-            const res = await browser.tabs.sendMessage(tab.id, msg);
+            const res = await browser.tabs.sendMessage(tab.id ?? 0, msg);
             return res;
         } catch (error) {
             console.log(`[===== Error in sendMessage =====]`, error);

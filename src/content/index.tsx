@@ -1,9 +1,9 @@
 /* global document */
 
-import React from "react";
-import ReactDOM from "react-dom";
-import browser from "webextension-polyfill";
-import MessageListener from "./messageListener";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { browser } from 'webextension-polyfill-ts';
+import MessageListener from './messageListener';
 
 // import "./content.css";
 
@@ -19,7 +19,7 @@ class Main extends React.Component {
     }
 }
 
-const app = document.createElement("div");
-app.id = "my-extension-root";
+const app = document.createElement('div');
+app.id = 'my-extension-root';
 document.body.appendChild(app);
 ReactDOM.render(<Main />, app);

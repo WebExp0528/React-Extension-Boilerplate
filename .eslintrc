@@ -1,5 +1,5 @@
 {
-    "parser": "@babel/eslint-parser",
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
         "sourceType": "module", // Allows for the use of imports
@@ -12,9 +12,13 @@
             "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
         }
     },
-    "plugins": ["prettier"],
+    "plugins": ["@typescript-eslint", "prettier"],
     "rules": {
-        "prettier/prettier": "error"
+        "react/prop-types": [1],
+        "prettier/prettier": [2],
+        "@typescript-eslint/ban-ts-comment": [0],
+        "@typescript-eslint/no-explicit-any": [1],
+        "@typescript-eslint/no-var-requires": [0]
     },
-    "extends": ["plugin:react/recommended", "prettier"]
+    "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"]
 }

@@ -23,19 +23,16 @@ const generalConfig = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(js|jsx|ts|tsx)$/,
                 use: [
                     {
-                        loader: "babel-loader",
-                        options: {
-                            presets: ["@babel/preset-env", "@babel/preset-react"],
-                        },
+                        loader: "ts-loader",
+                        // options: {
+                        //     transpileOnly: true,
+                        // },
                     },
                 ],
                 exclude: /node_modules/,
-                resolve: {
-                    extensions: [".js", ".jsx"],
-                },
             },
             {
                 test: /\.scss$/,

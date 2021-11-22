@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitThis": true,
+        "baseUrl": "./src",
+        "module": "es6",
+        "target": "es5",
+        "allowJs": true,
+        "jsx": "react",
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "allowUmdGlobalAccess": true,
+        "paths": {
+            "utils/*": ["./utils/*"],
+            "popup/*": ["./popup/*"],
+            "background/*": ["./background/*"],
+            "options/*": ["./options/*"],
+            "content/*": ["./content/*"],
+            "assets/*": ["./assets/*"],
+            "components/*": ["./components/*"],
+            "types/*": ["./types/*"],
+            "@redux/*": ["./@redux/*"],
+            "@hooks/*": ["./hooks/*"]
+        },
+        "typeRoots": ["node_modules/@types", "./src/types"]
+    }
+}
