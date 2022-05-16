@@ -1,8 +1,9 @@
 /* global document */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 const Index = () => <div>Hello React!</div>;
 
-ReactDOM.render(<Index />, document.getElementById('display-container'));
+const root = ReactDOM.createRoot(document.getElementById('display-container')!);
+root.render(<Index />);

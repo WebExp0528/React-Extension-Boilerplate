@@ -1,4 +1,4 @@
-const ESLintPlugin = require("eslint-webpack-plugin");
+const ESLintPlugin = require('eslint-webpack-plugin');
 const {
     getHTMLPlugins,
     getOutput,
@@ -9,25 +9,25 @@ const {
     getCleanWebpackPlugin,
     getAnalyzerPlugin,
     config,
-} = require("./webpack.utils");
-const webpack = require("webpack");
+} = require('./webpack.utils');
+const webpack = require('webpack');
 
-const WebpackExtensionManifestPlugin = require("webpack-extension-manifest-plugin");
-const baseManifest = require("./src/baseManifest.json");
+const WebpackExtensionManifestPlugin = require('webpack-extension-manifest-plugin');
+const baseManifest = require('./src/baseManifest.json');
 
-const NODE_ENV = "development";
+const NODE_ENV = 'development';
 const TARGET = process.env.TARGET;
 
 const generalConfig = {
-    mode: "development",
-    devtool: "source-map",
+    mode: 'development',
+    devtool: 'source-map',
     module: {
         rules: [
             {
                 test: /\.(js|jsx|ts|tsx)$/,
                 use: [
                     {
-                        loader: "ts-loader",
+                        loader: 'ts-loader',
                         // options: {
                         //     transpileOnly: true,
                         // },
@@ -39,13 +39,13 @@ const generalConfig = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: "style-loader",
+                        loader: 'style-loader',
                     },
                     {
-                        loader: "css-loader",
+                        loader: 'css-loader',
                     },
                     {
-                        loader: "sass-loader",
+                        loader: 'sass-loader',
                     },
                 ],
             },

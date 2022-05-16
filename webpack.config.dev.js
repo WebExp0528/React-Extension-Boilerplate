@@ -1,5 +1,5 @@
-const webpack = require("webpack");
-const ExtReloader = require("webpack-ext-reloader");
+const webpack = require('webpack');
+const ExtReloader = require('webpack-ext-reloader-mv3');
 
 const {
     getHTMLPlugins,
@@ -12,21 +12,21 @@ const {
     config,
     getExtensionManifestPlugin,
     getEslintPlugin,
-} = require("./webpack.utils");
+} = require('./webpack.utils');
 
-const NODE_ENV = "development";
+const NODE_ENV = 'development';
 const TARGET = process.env.TARGET;
 
 const generalConfig = {
-    mode: "development",
-    devtool: "source-map",
+    mode: 'development',
+    devtool: 'source-map',
     module: {
         rules: [
             {
                 test: /\.(js|jsx|ts|tsx)$/,
                 use: [
                     {
-                        loader: "ts-loader",
+                        loader: 'ts-loader',
                         // options: {
                         //     transpileOnly: true,
                         // },
@@ -38,13 +38,13 @@ const generalConfig = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: "style-loader",
+                        loader: 'style-loader',
                     },
                     {
-                        loader: "css-loader",
+                        loader: 'css-loader',
                     },
                     {
-                        loader: "sass-loader",
+                        loader: 'sass-loader',
                     },
                 ],
             },
@@ -67,23 +67,23 @@ const generalConfig = {
 module.exports = [
     {
         ...generalConfig,
-        entry: getEntry(config?.SRC_DIR ?? "src"),
-        output: getOutput(TARGET, config?.DEV_DIR ?? "dev"),
+        entry: getEntry(config?.SRC_DIR ?? 'src'),
+        output: getOutput(TARGET, config?.DEV_DIR ?? 'dev'),
         plugins: [
-            ...getCleanWebpackPlugin(TARGET, config?.DEV_DIR ?? "dev"),
+            ...getCleanWebpackPlugin(TARGET, config?.DEV_DIR ?? 'dev'),
             new webpack.ProgressPlugin(),
             ...getEslintPlugin(),
             ...getDefinePlugins({ NODE_ENV }),
-            ...getHTMLPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? "src"),
-            ...getCopyPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? "src"),
+            ...getHTMLPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? 'src'),
+            ...getCopyPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? 'src'),
             ...getExtensionManifestPlugin(),
             new ExtReloader({
                 port: 9090,
                 reloadPage: true,
                 entries: {
-                    contentScript: ["content"],
-                    background: "background",
-                    extensionPage: ["popup", "options"],
+                    contentScript: ['content'],
+                    background: 'background',
+                    extensionPage: ['popup', 'options'],
                 },
             }),
         ],

@@ -1,3 +1,3 @@
-import { browser } from 'webextension-polyfill-ts';
+import { storage } from 'webextension-polyfill';
 
-export default browser.storage.sync ? browser.storage.sync : browser.storage.local;
+export default storage.sync ? storage.sync : storage.local;

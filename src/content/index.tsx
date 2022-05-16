@@ -1,13 +1,13 @@
 /* global document */
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { browser } from 'webextension-polyfill-ts';
+import ReactDOM from 'react-dom/client';
+import { runtime } from 'webextension-polyfill';
 import MessageListener from './messageListener';
 
 // import "./content.css";
 
-browser.runtime.onMessage.addListener(MessageListener);
+runtime.onMessage.addListener(MessageListener);
 
 class Main extends React.Component {
     render() {
@@ -22,4 +22,5 @@ class Main extends React.Component {
 const app = document.createElement('div');
 app.id = 'my-extension-root';
 document.body.appendChild(app);
-ReactDOM.render(<Main />, app);
+const root = ReactDOM.createRoot(app);
+root.render(<Main />);

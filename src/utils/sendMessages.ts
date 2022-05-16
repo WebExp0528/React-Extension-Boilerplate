@@ -1,4 +1,4 @@
-import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
+import { runtime, tabs, Runtime, Tabs } from 'webextension-polyfill';
 
 /**
  * Send Message to Background Script
@@ -7,7 +7,7 @@ import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
  * @returns
  */
 export const sendMessage = (msg: EXTMessage, options?: Runtime.SendMessageOptionsType): Promise<EXTResponse> => {
-    return browser.runtime.sendMessage(msg, options);
+    return runtime.sendMessage(msg, options);
 };
 
 /**
@@ -18,7 +18,7 @@ export const sendMessageToTab = <T = any>(
     msg: EXTMessage<T>,
     options?: Tabs.SendMessageOptionsType
 ): Promise<Response> => {
-    return browser.tabs.sendMessage(tab.id as number, msg, options);
+    return tabs.sendMessage(tab.id as number, msg, options);
 };
 
 /**
@@ -30,8 +30,8 @@ export const sendMessageToActiveTab = async <T = any>(
 ): Promise<Response> => {
     let activeTab: Tabs.Tab;
     try {
-        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-        activeTab = tabs[0];
+        const activeTabs = await tabs.query({ active: true, currentWindow: true });
+        activeTab = activeTabs[0];
     } catch (error) {
         console.log('[===== Error in sendMessageToActiveTab =====]', error);
         throw `Error in sendMessageToActiveTab`;
