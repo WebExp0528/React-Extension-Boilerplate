@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import Popup from './Popup';
 
 const Index = () => <Popup />;
 
-ReactDOM.render(<Index />, document.getElementById('display-container'));
+const root = ReactDOM.createRoot(document.getElementById('display-container')!);
+root.render(<Index />);

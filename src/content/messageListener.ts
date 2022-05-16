@@ -1,4 +1,4 @@
-import { Runtime } from 'webextension-polyfill-ts';
+import { Runtime } from 'webextension-polyfill';
 
 export const onRequest = async (
     msg: EXTMessage,

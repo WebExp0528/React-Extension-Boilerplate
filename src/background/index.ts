@@ -1,4 +1,4 @@
-import { browser, Tabs, Runtime } from 'webextension-polyfill-ts';
+import { runtime, tabs, Tabs, Runtime } from 'webextension-polyfill';
 
 /**
  * Define background script functions
@@ -19,16 +19,16 @@ class Background {
         console.log('[===== Loaded Background Scripts =====]');
 
         //When extension installed
-        browser.runtime.onInstalled.addListener(this.onInstalled);
+        runtime.onInstalled.addListener(this.onInstalled);
 
         //Add message listener in Browser.
-        browser.runtime.onMessage.addListener(this.onMessage);
+        runtime.onMessage.addListener(this.onMessage);
 
         //Add Update listener for tab
-        browser.tabs.onUpdated.addListener(this.onUpdatedTab);
+        tabs.onUpdated.addListener(this.onUpdatedTab);
 
         //Add New tab create listener
-        browser.tabs.onCreated.addListener(this.onCreatedTab);
+        tabs.onCreated.addListener(this.onCreatedTab);
     };
 
     //TODO: Listeners
@@ -93,7 +93,7 @@ class Background {
      */
     getURLFromTab = async (tabId: number) => {
         try {
-            const tab = await browser.tabs.get(tabId);
+            const tab = await tabs.get(tabId);
             return tab.url || '';
         } catch (error) {
             console.log(`[===== Could not get Tab Info$(tabId) in getURLFromTab =====]`, error);
@@ -107,7 +107,7 @@ class Background {
      */
     openNewTab = async (url: string) => {
         try {
-            const tab = await browser.tabs.create({ url });
+            const tab = await tabs.create({ url });
             return tab;
         } catch (error) {
             console.log(`[===== Error in openNewTab =====]`, error);
@@ -122,7 +122,7 @@ class Background {
      */
     closeTab = async (tab: Tabs.Tab) => {
         try {
-            await browser.tabs.remove(tab.id ?? 0);
+            await tabs.remove(tab.id ?? 0);
         } catch (error) {
             console.log(`[===== Error in closeTab =====]`, error);
         }
@@ -133,7 +133,7 @@ class Background {
      */
     sendMessage = async (tab: Tabs.Tab, msg: EXTMessage) => {
         try {
-            const res = await browser.tabs.sendMessage(tab.id ?? 0, msg);
+            const res = await tabs.sendMessage(tab.id ?? 0, msg);
             return res;
         } catch (error) {
             console.log(`[===== Error in sendMessage =====]`, error);

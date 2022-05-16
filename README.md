@@ -6,19 +6,21 @@ Works for Chrome, Opera, Edge & Firefox.
 
 ## Features
 
+>- ___Supports Manifest Version 3___
+>  
 >- ___Write in your favorite framework - React! :)___
 >  
 >   Now you can create part of your extensions in React framework - as you wish ;)
 >
 >- ___Write once and deploy to Chrome, Opera, Edge & Firefox___
 >
->   Based on `webextension-polyfill-ts`. It also includes a tiny polyfill to bring uniformity to the APIs exposed by different browsers.
+>   Based on `webextension-polyfill`. It also includes a tiny polyfill to bring uniformity to the APIs exposed by different browsers.
 >
 >- ___Live-reload___
 >
 >   Your changes to CSS, HTML & JS files will be relayed instantly without having
 >   to manually reload the extension. This ends up saving a lot of time and
->   improving the developer experience. Based on `web-ext-reloader`
+>   improving the developer experience. Based on `web-ext-reloader-mv3`
 >
 >- ___Newest js technology stack___
 >

@@ -1,5 +1,5 @@
-const TerserPlugin = require("terser-webpack-plugin");
-const webpack = require("webpack");
+const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
 
 const {
     getHTMLPlugins,
@@ -13,20 +13,20 @@ const {
     config,
     getExtensionManifestPlugin,
     getEslintPlugin,
-} = require("./webpack.utils");
+} = require('./webpack.utils');
 
-const NODE_ENV = "production";
+const NODE_ENV = 'production';
 const TARGET = process.env.TARGET;
 
 const generalConfig = {
-    mode: "production",
+    mode: 'production',
     module: {
         rules: [
             {
                 test: /\.(js|jsx|ts|tsx)$/,
                 use: [
                     {
-                        loader: "ts-loader",
+                        loader: 'ts-loader',
                         // options: {
                         //     transpileOnly: true,
                         // },
@@ -38,13 +38,13 @@ const generalConfig = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: "style-loader",
+                        loader: 'style-loader',
                     },
                     {
-                        loader: "css-loader",
+                        loader: 'css-loader',
                     },
                     {
-                        loader: "sass-loader",
+                        loader: 'sass-loader',
                     },
                 ],
             },
@@ -70,8 +70,8 @@ const generalConfig = {
 module.exports = [
     {
         ...generalConfig,
-        entry: getEntry(config?.SRC_DIR ?? "src"),
-        output: getOutput(TARGET, config?.TEMP_DIR ?? "tmp"),
+        entry: getEntry(config?.SRC_DIR ?? 'src'),
+        output: getOutput(TARGET, config?.TEMP_DIR ?? 'tmp'),
         plugins: [
             ...getCleanWebpackPlugin(TARGET, config.TEMP_DIR, config.DIST_DIR),
             new webpack.ProgressPlugin(),
