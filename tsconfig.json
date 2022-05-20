@@ -4,7 +4,8 @@
         "strictNullChecks": true,
         "noImplicitThis": true,
         "baseUrl": "./src",
-        "module": "es6",
+        "esModuleInterop": true,
+        "module": "commonjs",
         "target": "es5",
         "allowJs": true,
         "jsx": "react",
@@ -12,6 +13,7 @@
         "moduleResolution": "node",
         "allowSyntheticDefaultImports": true,
         "allowUmdGlobalAccess": true,
+        "resolveJsonModule": true,
         "paths": {
             "utils/*": ["./utils/*"],
             "popup/*": ["./popup/*"],
@@ -25,5 +27,6 @@
             "@hooks/*": ["./hooks/*"]
         },
         "typeRoots": ["node_modules/@types", "./src/types"]
-    }
+    },
+    "exclude": ["dist", "dev", "temp"]
 }

@@ -1,0 +1,41 @@
+name: Upload Built files
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    upload:
+        name: Build and Upload files on Artifact
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: 14
+
+            - name: Build
+              run: |
+                  npm ci
+                  npm run upload
+            - name: Uploading Chrome Extension
+              uses: actions/upload-artifact@v3
+              with:
+                  name: chrome
+                  path: dist/chrome
+            - name: Uploading Firefox Extension
+              uses: actions/upload-artifact@v3
+              with:
+                  name: firefox
+                  path: dist/firefox
+            - name: Uploading Opera Extension
+              uses: actions/upload-artifact@v3
+              with:
+                  name: opera
+                  path: dist/opera
+            - name: Uploading Edge Extension
+              uses: actions/upload-artifact@v3
+              with:
+                  name: edge
+                  path: dist/edge
