@@ -81,7 +81,7 @@ Works for Chrome, Opera, Edge & Firefox.
 
 >The following tasks can be used when you want to start developing the extension
 >and want to enable live reload -
->`npm run dev:{target browser}` or `yarn watch:{target browser}`
+>`npm run dev:{target browser}` or `yarn dev:{target browser}`
 
 ## Profiling
 
