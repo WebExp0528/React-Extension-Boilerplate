@@ -1,7 +1,5 @@
-const webpack = require('webpack');
-const ExtReloader = require('webpack-ext-reloader-mv3');
-
-const {
+import ESLintPlugin from 'eslint-webpack-plugin';
+import {
     getHTMLPlugins,
     getOutput,
     getCopyPlugins,
@@ -9,13 +7,15 @@ const {
     getResolves,
     getDefinePlugins,
     getCleanWebpackPlugin,
+    getAnalyzerPlugin,
     config,
     getExtensionManifestPlugin,
-    getEslintPlugin,
-} = require('./webpack.utils');
+} from './webpack.config.utils';
+import webpack from 'webpack';
 
 const NODE_ENV = 'development';
-const TARGET = process.env.TARGET;
+
+const TARGET = process.env.TARGET ?? 'chrome';
 
 const generalConfig = {
     mode: 'development',
@@ -57,35 +57,26 @@ const generalConfig = {
         errors: true,
         hash: true,
     },
-    watch: true,
-    watchOptions: {
-        aggregateTimeout: 200,
-        poll: 1000,
-    },
 };
 
-module.exports = [
+const eslintOptions = {
+    fix: true,
+};
+
+export default [
     {
         ...generalConfig,
-        entry: getEntry(config?.SRC_DIR ?? 'src'),
-        output: getOutput(TARGET, config?.DEV_DIR ?? 'dev'),
+        entry: getEntry(config.SRC_DIR),
+        output: getOutput(TARGET, config.DEV_DIR),
         plugins: [
-            ...getCleanWebpackPlugin(TARGET, config?.DEV_DIR ?? 'dev'),
+            ...getCleanWebpackPlugin(TARGET, config.DEV_DIR),
             new webpack.ProgressPlugin(),
-            ...getEslintPlugin(),
+            new ESLintPlugin(eslintOptions),
             ...getDefinePlugins({ NODE_ENV }),
-            ...getHTMLPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? 'src'),
-            ...getCopyPlugins(TARGET, config.DEV_DIR, config?.SRC_DIR ?? 'src'),
+            ...getHTMLPlugins(TARGET, config.DEV_DIR, config.SRC_DIR),
+            ...getCopyPlugins(TARGET, config.DEV_DIR, config.SRC_DIR),
             ...getExtensionManifestPlugin(),
-            new ExtReloader({
-                port: 9090,
-                reloadPage: true,
-                entries: {
-                    contentScript: ['content'],
-                    background: 'background',
-                    extensionPage: ['popup', 'options'],
-                },
-            }),
+            ...getAnalyzerPlugin(),
         ],
     },
 ];

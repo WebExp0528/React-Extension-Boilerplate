@@ -1,26 +1,26 @@
-const ESLintPlugin = require('eslint-webpack-plugin');
-const {
+import TerserPlugin from 'terser-webpack-plugin';
+
+import {
     getHTMLPlugins,
     getOutput,
     getCopyPlugins,
+    getZipPlugin,
     getEntry,
     getResolves,
     getDefinePlugins,
     getCleanWebpackPlugin,
-    getAnalyzerPlugin,
     config,
-} = require('./webpack.utils');
-const webpack = require('webpack');
+    getExtensionManifestPlugin,
+    getEslintPlugin,
+    getProgressPlugins,
+} from './webpack.config.utils';
 
-const WebpackExtensionManifestPlugin = require('webpack-extension-manifest-plugin');
-const baseManifest = require('./src/baseManifest.json');
+const NODE_ENV = 'production';
 
-const NODE_ENV = 'development';
-const TARGET = process.env.TARGET;
+const TARGET = process.env.TARGET ?? 'chrome';
 
 const generalConfig = {
-    mode: 'development',
-    devtool: 'source-map',
+    mode: 'production',
     module: {
         rules: [
             {
@@ -52,34 +52,35 @@ const generalConfig = {
         ],
     },
     resolve: getResolves(),
-    stats: {
-        all: false,
-        builtAt: true,
-        errors: true,
-        hash: true,
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                parallel: true,
+                terserOptions: {
+                    format: {
+                        comments: false,
+                    },
+                },
+                extractComments: false,
+            }),
+        ],
     },
 };
 
-const eslintOptions = {
-    fix: true,
-};
-
-module.exports = [
+export default [
     {
         ...generalConfig,
-        entry: getEntry(config.SRC_DIR),
-        output: getOutput(TARGET, config.DEV_DIR),
+        entry: getEntry(config?.SRC_DIR ?? 'src'),
+        output: getOutput(TARGET, config?.DIST_DIR ?? 'dist'),
         plugins: [
-            ...getCleanWebpackPlugin(TARGET, config.DEV_DIR),
-            new webpack.ProgressPlugin(),
-            new ESLintPlugin(eslintOptions),
+            ...getCleanWebpackPlugin(TARGET, config.DIST_DIR, config.DIST_DIR),
+            ...getProgressPlugins(),
+            ...getEslintPlugin(),
+            ...getExtensionManifestPlugin(),
             ...getDefinePlugins({ NODE_ENV }),
-            ...getHTMLPlugins(TARGET, config.DEV_DIR, config.SRC_DIR),
-            ...getCopyPlugins(TARGET, config.DEV_DIR, config.SRC_DIR),
-            new WebpackExtensionManifestPlugin({
-                config: { base: baseManifest },
-            }),
-            ...getAnalyzerPlugin(),
+            ...getHTMLPlugins(TARGET, config.DIST_DIR, config.SRC_DIR),
+            ...getCopyPlugins(TARGET, config.DIST_DIR, config.SRC_DIR),
         ],
     },
 ];

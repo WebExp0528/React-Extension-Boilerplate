@@ -1,7 +1,6 @@
-const TerserPlugin = require('terser-webpack-plugin');
-const webpack = require('webpack');
+import TerserPlugin from 'terser-webpack-plugin';
 
-const {
+import {
     getHTMLPlugins,
     getOutput,
     getCopyPlugins,
@@ -13,10 +12,12 @@ const {
     config,
     getExtensionManifestPlugin,
     getEslintPlugin,
-} = require('./webpack.utils');
+    getProgressPlugins,
+} from './webpack.config.utils';
 
 const NODE_ENV = 'production';
-const TARGET = process.env.TARGET;
+
+const TARGET = process.env.TARGET ?? 'chrome';
 
 const generalConfig = {
     mode: 'production',
@@ -67,14 +68,14 @@ const generalConfig = {
     },
 };
 
-module.exports = [
+export default [
     {
         ...generalConfig,
         entry: getEntry(config?.SRC_DIR ?? 'src'),
         output: getOutput(TARGET, config?.TEMP_DIR ?? 'tmp'),
         plugins: [
             ...getCleanWebpackPlugin(TARGET, config.TEMP_DIR, config.DIST_DIR),
-            new webpack.ProgressPlugin(),
+            ...getProgressPlugins(),
             ...getEslintPlugin(),
             ...getExtensionManifestPlugin(),
             ...getDefinePlugins({ NODE_ENV }),
