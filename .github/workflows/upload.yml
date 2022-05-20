@@ -18,7 +18,7 @@ jobs:
             - name: Build
               run: |
                   npm ci
-                  npm run build:upload
+                  npm run upload
             - name: Uploading Chrome Extension
               uses: actions/upload-artifact@v3
               with:
