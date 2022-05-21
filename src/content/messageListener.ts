@@ -4,7 +4,6 @@ export const onRequest = async (
     msg: EXTMessage,
     sender: Runtime.SendMessageOptionsType
 ): Promise<EXTResponse | undefined> => {
-    console.log('~~~~~~~', msg);
     try {
         switch (msg.type) {
             case 'CHANGE_COLOR': {

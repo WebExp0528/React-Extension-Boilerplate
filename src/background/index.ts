@@ -1,4 +1,9 @@
 import { runtime, tabs, Tabs, Runtime } from 'webextension-polyfill';
+import { wrapStore } from 'webext-redux';
+
+import store from '@redux/createStore';
+
+wrapStore(store);
 
 /**
  * Define background script functions
