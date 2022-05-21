@@ -103,12 +103,19 @@ if (config.NODE_ENV === 'profile') {
 if (config.NODE_ENV === 'upload') {
     generalConfig = {
         ...generalConfig,
-        devtool: 'source-map',
-        stats: {
-            all: false,
-            builtAt: true,
-            errors: true,
-            hash: true,
+        optimization: {
+            minimize: true,
+            minimizer: [
+                new TerserPlugin({
+                    parallel: true,
+                    terserOptions: {
+                        format: {
+                            comments: false,
+                        },
+                    },
+                    extractComments: false,
+                }),
+            ],
         },
     };
 
