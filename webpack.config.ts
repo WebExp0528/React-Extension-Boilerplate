@@ -65,7 +65,6 @@ let plugins: any[] = [
     ...getCopyPlugins(config.TARGET, config.OUTPUT_DIR, Directories.SRC_DIR),
 ];
 
-
 if (config.NODE_ENV === 'development') {
     generalConfig = {
         ...generalConfig,
