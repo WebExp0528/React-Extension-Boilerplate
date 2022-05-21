@@ -17,8 +17,8 @@ jobs:
 
             - name: Build
               run: |
-                  npm ci
-                  npm run upload
+                  yarn install --frozen-lockfile
+                  yarn upload
             - name: Uploading Chrome Extension
               uses: actions/upload-artifact@v3
               with:
