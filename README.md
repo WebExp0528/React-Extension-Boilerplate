@@ -1,3 +1,4 @@
+TEST
 # React Extension Boilerplate
 
 Works for Chrome, Opera, Edge & Firefox.
