@@ -55,7 +55,7 @@ Works for Chrome, Opera, Edge & Firefox.
 
 >### Run & Build
 >
->> 1. Clone the repository `git clone https://github.com/WebExp0528/>React-Extension-Boilerplate.git`. If you want to use Babel, `git clone --single-branch --branch babel https://github.com/WebExp0528/React-Extension-Boilerplate.git`
+>> 1. Clone the repository `git clone https://github.com/WebExp0528/React-Extension-Boilerplate.git`. If you want to use Babel, `git clone --single-branch --branch babel https://github.com/WebExp0528/React-Extension-Boilerplate.git`
 >> 2. Run `npm install` or `yarn install`
 >> 3. Run `npm run build:{target browser}` or `yarn build:{target browser}`. EX: `yarn build:chrome`
 >>
