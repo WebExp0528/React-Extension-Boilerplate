@@ -8,22 +8,22 @@ import path from 'path';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import WebpackExtensionManifestPlugin from 'webpack-extension-manifest-plugin';
+import deepMerge from 'deepmerge';
 
 const ExtReloader = require('webpack-ext-reloader-mv3');
 
-const baseManifestChrome = require('./src/baseManifest_chrome.json');
-const baseManifestFirefox = require('./src/baseManifest_firefox.json');
-const baseManifestOpera = require('./src/baseManifest_opera.json');
-const baseManifestEdge = require('./src/baseManifest_edge.json');
+const baseManifest = require('./src/manifest.json');
 
-const baseManifest = {
-    chrome: baseManifestChrome,
-    firefox: baseManifestFirefox,
-    opera: baseManifestOpera,
-    edge: baseManifestEdge,
+const platformManifests = {
+    chrome: require('./src/manifest_chrome.json'),
+    firefox: require('./src/manifest_firefox.json'),
+    opera: require('./src/manifest_opera.json'),
+    edge: require('./src/manifest_edge.json'),
 };
 
 const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
+
+type AvailableTargets = 'chrome' | 'firefox' | 'opera' | 'edge';
 
 interface EnvironmentConfig {
     NODE_ENV: string;
@@ -79,6 +79,16 @@ export const getHTMLPlugins = (
         chunks: ['options'],
     }),
 ];
+
+const overwriteMerge = (destinationArray: unknown[], sourceArray: unknown[]) => sourceArray;
+
+const getPlatformManifest = (target: AvailableTargets): Record<string, unknown> => {
+    const platformManifest = platformManifests[target] || {};
+
+    return deepMerge(baseManifest, platformManifest, {
+        arrayMerge: overwriteMerge,
+    });
+};
 
 /**
  * Get DefinePlugins
@@ -236,7 +246,7 @@ export const getResolves = () => {
 export const getExtensionManifestPlugins = () => {
     return [
         new WebpackExtensionManifestPlugin({
-            config: { base: (baseManifest as any)[EnvConfig.TARGET] },
+            config: { base: getPlatformManifest(EnvConfig.TARGET as AvailableTargets) },
         }),
     ];
 };

@@ -31,6 +31,7 @@
         "core-js": "^3.22.5",
         "cross-env": "^7.0.3",
         "css-loader": "^6.7.1",
+        "deepmerge": "^4.2.2",
         "dotenv": "^16.0.1",
         "html-webpack-plugin": "^5.5.0",
         "node-sass": "^7.0.1",
@@ -50,6 +51,7 @@
     },
     "devDependencies": {
         "@types/chrome": "^0.0.188",
+        "@types/deepmerge": "^2.2.0",
         "@types/inboxsdk": "^2.0.8",
         "@types/jquery": "^3.5.14",
         "@types/lodash": "^4.14.182",
