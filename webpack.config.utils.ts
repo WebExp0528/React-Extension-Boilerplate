@@ -11,7 +11,17 @@ import WebpackExtensionManifestPlugin from 'webpack-extension-manifest-plugin';
 
 const ExtReloader = require('webpack-ext-reloader-mv3');
 
-const baseManifest = require('./src/baseManifest.json');
+const baseManifestChrome = require('./src/baseManifest_chrome.json');
+const baseManifestFirefox = require('./src/baseManifest_firefox.json');
+const baseManifestOpera = require('./src/baseManifest_opera.json');
+const baseManifestEdge = require('./src/baseManifest_edge.json');
+
+const baseManifest = {
+    chrome: baseManifestChrome,
+    firefox: baseManifestFirefox,
+    opera: baseManifestOpera,
+    edge: baseManifestEdge,
+};
 
 const dotenv = require('dotenv').config({ path: __dirname + '/.env' });
 
@@ -226,7 +236,7 @@ export const getResolves = () => {
 export const getExtensionManifestPlugins = () => {
     return [
         new WebpackExtensionManifestPlugin({
-            config: { base: baseManifest },
+            config: { base: (baseManifest as any)[EnvConfig.TARGET] },
         }),
     ];
 };
