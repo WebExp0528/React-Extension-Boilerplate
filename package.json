@@ -42,7 +42,7 @@
         "terser-webpack-plugin": "^5.3.6",
         "ts-node": "^10.9.1",
         "webextension-polyfill": "^0.10.0",
-        "webpack": "^5.75.0",
+        "webpack": "^5.76.0",
         "webpack-bundle-analyzer": "^4.8.0",
         "webpack-ext-reloader-mv3": "^2.1.1",
         "webpack-extension-manifest-plugin": "^0.8.0",
