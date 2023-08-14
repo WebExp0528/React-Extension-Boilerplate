@@ -96,6 +96,51 @@ const overwriteMerge = (destinationArray: unknown[], sourceArray: unknown[]) => 
 const getPlatformManifest = (target: AvailableTargets): Record<string, unknown> => {
     const platformManifest = platformManifests[target] || {};
 
+    const resources = ['assets/*'];
+    // const manifest = cloneDeep(baseManifest);
+
+    if (fs.existsSync(path.resolve(__dirname, 'src/content/index.tsx'))) {
+        resources.push('content/*');
+        Object.assign(baseManifest, {
+            content_scripts: [
+                {
+                    matches: ['http://*/*', 'https://*/*'],
+                    js: ['content/content.js'],
+                },
+            ],
+        });
+    }
+
+    if (fs.existsSync(path.resolve(__dirname, 'src/options/index.html'))) {
+        resources.push('options/*');
+        Object.assign(baseManifest, {
+            options_ui: {
+                page: 'options/index.html',
+            },
+        });
+    }
+
+    if (fs.existsSync(path.resolve(__dirname, 'src/popup/index.html'))) {
+        resources.push('popup/*');
+        Object.assign(baseManifest, {
+            action: {
+                ...baseManifest.action,
+                default_popup: 'popup/index.html',
+            },
+        });
+    }
+
+    if (fs.existsSync(path.resolve(__dirname, 'src/background/index.ts'))) {
+        resources.push('background/*');
+        Object.assign(baseManifest, {
+            background: {
+                service_worker: 'background/background.js',
+            },
+        });
+    }
+    Object.assign(baseManifest, {
+        web_accessible_resources: [{ ...baseManifest.web_accessible_resources[0], resources }],
+    });
     return deepMerge(baseManifest, platformManifest, {
         arrayMerge: overwriteMerge,
     });
