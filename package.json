@@ -1,5 +1,5 @@
 {
-    "name": "react-extension-boilerplate",
+    "name": "test",
     "version": "3.0.0",
     "description": "Boilerplate for Chrome, FF, Opera extension",
     "main": "webpack.config.js",

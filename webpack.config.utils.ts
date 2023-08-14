@@ -9,6 +9,7 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import WebpackExtensionManifestPlugin from 'webpack-extension-manifest-plugin';
 import deepMerge from 'deepmerge';
+import * as fs from 'fs';
 
 const ExtReloader = require('webpack-ext-reloader-mv3');
 
@@ -64,21 +65,31 @@ const EnvConfig: EnvironmentConfig = {
 export const getHTMLPlugins = (
     browserDir: string,
     outputDir = Directories.DEV_DIR,
-    sourceDir = Directories.SRC_DIR
-) => [
-    new HtmlWebpackPlugin({
-        title: 'Popup',
-        filename: path.resolve(__dirname, `${outputDir}/${browserDir}/popup/index.html`),
-        template: path.resolve(__dirname, `${sourceDir}/popup/index.html`),
-        chunks: ['popup'],
-    }),
-    new HtmlWebpackPlugin({
-        title: 'Options',
-        filename: path.resolve(__dirname, `${outputDir}/${browserDir}/options/index.html`),
-        template: path.resolve(__dirname, `${sourceDir}/options/index.html`),
-        chunks: ['options'],
-    }),
-];
+    sourceDir = Directories.SRC_DIR,
+): HtmlWebpackPlugin[] => {
+    const plugins: HtmlWebpackPlugin[] = [];
+    if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/popup/index.html`))) {
+        plugins.push(
+            new HtmlWebpackPlugin({
+                title: 'Popup',
+                filename: path.resolve(__dirname, `${outputDir}/${browserDir}/popup/index.html`),
+                template: path.resolve(__dirname, `${sourceDir}/popup/index.html`),
+                chunks: ['popup'],
+            }),
+        );
+    }
+    if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/options/index.html`))) {
+        plugins.push(
+            new HtmlWebpackPlugin({
+                title: 'Options',
+                filename: path.resolve(__dirname, `${outputDir}/${browserDir}/options/index.html`),
+                template: path.resolve(__dirname, `${sourceDir}/options/index.html`),
+                chunks: ['options'],
+            }),
+        );
+    }
+    return plugins;
+};
 
 const overwriteMerge = (destinationArray: unknown[], sourceArray: unknown[]) => sourceArray;
 
@@ -123,12 +134,20 @@ export const getOutput = (browserDir: string, outputDir = Directories.DEV_DIR) =
  * @returns
  */
 export const getEntry = (sourceDir = Directories.SRC_DIR) => {
-    return {
-        popup: [path.resolve(__dirname, `${sourceDir}/popup/index.tsx`)],
-        options: [path.resolve(__dirname, `${sourceDir}/options/options.tsx`)],
-        content: [path.resolve(__dirname, `${sourceDir}/content/index.tsx`)],
-        background: [path.resolve(__dirname, `${sourceDir}/background/index.ts`)],
-    };
+    const entries = {};
+    if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/popup/index.html`))) {
+        Object.assign(entries, { popup: [path.resolve(__dirname, `${sourceDir}/popup/index.tsx`)] });
+    }
+    if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/content/index.tsx`))) {
+        Object.assign(entries, { content: [path.resolve(__dirname, `${sourceDir}/content/index.tsx`)] });
+    }
+    if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/background/index.ts`))) {
+        Object.assign(entries, { background: [path.resolve(__dirname, `${sourceDir}/background/index.ts`)] });
+    }
+    if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/options/index.html`))) {
+        Object.assign(entries, { options: [path.resolve(__dirname, `${sourceDir}/options/options.tsx`)] });
+    }
+    return entries;
 };
 
 /**
@@ -142,7 +161,7 @@ export const getEntry = (sourceDir = Directories.SRC_DIR) => {
 export const getCopyPlugins = (
     browserDir: string,
     outputDir = Directories.DEV_DIR,
-    sourceDir = Directories.SRC_DIR
+    sourceDir = Directories.SRC_DIR,
 ) => {
     return [
         new CopyWebpackPlugin({
@@ -221,19 +240,28 @@ export const getCleanWebpackPlugins = (...dirs: string[]) => {
  * @returns
  */
 export const getResolves = () => {
+    const aliases = {
+        utils: path.resolve(__dirname, './src/utils/'),
+        assets: path.resolve(__dirname, './src/assets/'),
+        components: path.resolve(__dirname, './src/components/'),
+        types: path.resolve(__dirname, './src/types/'),
+        hooks: path.resolve(__dirname, './src/hooks/'),
+        '@redux': path.resolve(__dirname, './src/@redux/'),
+    };
+    if (fs.existsSync(path.resolve(__dirname, 'src/popup/index.html'))) {
+        Object.assign(aliases, { options: path.resolve(__dirname, './src/popup/') });
+    }
+    if (fs.existsSync(path.resolve(__dirname, 'src/background/index.ts'))) {
+        Object.assign(aliases, { background: path.resolve(__dirname, './src/background/') });
+    }
+    if (fs.existsSync(path.resolve(__dirname, 'src/options/index.html'))) {
+        Object.assign(aliases, { options: path.resolve(__dirname, './src/options/') });
+    }
+    if (fs.existsSync(path.resolve(__dirname, 'src/content/index.tsx'))) {
+        Object.assign(aliases, { content: path.resolve(__dirname, './src/content/') });
+    }
     return {
-        alias: {
-            utils: path.resolve(__dirname, './src/utils/'),
-            popup: path.resolve(__dirname, './src/popup/'),
-            background: path.resolve(__dirname, './src/background/'),
-            options: path.resolve(__dirname, './src/options/'),
-            content: path.resolve(__dirname, './src/content/'),
-            assets: path.resolve(__dirname, './src/assets/'),
-            components: path.resolve(__dirname, './src/components/'),
-            types: path.resolve(__dirname, './src/types/'),
-            hooks: path.resolve(__dirname, './src/hooks/'),
-            '@redux': path.resolve(__dirname, './src/@redux/'),
-        },
+        alias: aliases,
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
     };
 };
@@ -293,6 +321,7 @@ export const getExtensionReloaderPlugins = () => {
                 contentScript: ['content'],
                 background: 'background',
                 extensionPage: ['popup', 'options'],
+                // extensionPage: ['options'],
             },
         }),
     ];
