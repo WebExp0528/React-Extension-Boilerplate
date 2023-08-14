@@ -65,7 +65,7 @@ const EnvConfig: EnvironmentConfig = {
 export const getHTMLPlugins = (
     browserDir: string,
     outputDir = Directories.DEV_DIR,
-    sourceDir = Directories.SRC_DIR,
+    sourceDir = Directories.SRC_DIR
 ): HtmlWebpackPlugin[] => {
     const plugins: HtmlWebpackPlugin[] = [];
     if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/popup/index.html`))) {
@@ -75,7 +75,7 @@ export const getHTMLPlugins = (
                 filename: path.resolve(__dirname, `${outputDir}/${browserDir}/popup/index.html`),
                 template: path.resolve(__dirname, `${sourceDir}/popup/index.html`),
                 chunks: ['popup'],
-            }),
+            })
         );
     }
     if (fs.existsSync(path.resolve(__dirname, `${sourceDir}/options/index.html`))) {
@@ -85,7 +85,7 @@ export const getHTMLPlugins = (
                 filename: path.resolve(__dirname, `${outputDir}/${browserDir}/options/index.html`),
                 template: path.resolve(__dirname, `${sourceDir}/options/index.html`),
                 chunks: ['options'],
-            }),
+            })
         );
     }
     return plugins;
@@ -206,7 +206,7 @@ export const getEntry = (sourceDir = Directories.SRC_DIR) => {
 export const getCopyPlugins = (
     browserDir: string,
     outputDir = Directories.DEV_DIR,
-    sourceDir = Directories.SRC_DIR,
+    sourceDir = Directories.SRC_DIR
 ) => {
     return [
         new CopyWebpackPlugin({
@@ -358,16 +358,28 @@ export const config = EnvConfig;
  * @returns
  */
 export const getExtensionReloaderPlugins = () => {
+    const entries = {};
+    const extension_pages = [];
+    if (fs.existsSync(path.resolve(__dirname, 'src/content/index.tsx'))) {
+        Object.assign(entries, { contentScript: ['content'] });
+    }
+    if (fs.existsSync(path.resolve(__dirname, 'src/background/index.ts'))) {
+        Object.assign(entries, { background: 'background' });
+    }
+    if (fs.existsSync(path.resolve(__dirname, 'src/popup/index.html'))) {
+        extension_pages.push('popup');
+    }
+    if (fs.existsSync(path.resolve(__dirname, 'src/options/index.html'))) {
+        extension_pages.push('options');
+    }
+
+    Object.assign(entries, { extension_pages: extension_pages });
+
     return [
         new ExtReloader({
             port: 9090,
             reloadPage: true,
-            entries: {
-                contentScript: ['content'],
-                background: 'background',
-                extensionPage: ['popup', 'options'],
-                // extensionPage: ['options'],
-            },
+            entries,
         }),
     ];
 };
