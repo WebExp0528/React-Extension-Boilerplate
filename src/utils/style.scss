@@ -1,0 +1,13 @@
+//
+// Import Bootstrap
+//
+
+@import "bootstrap";
+
+
+//
+// Import Bootstrap Icons w/ custom path to fonts folder
+//
+
+$bootstrap-icons-font-dir: "../../node_modules/bootstrap-icons/font/fonts";
+@import "bootstrap-icons";

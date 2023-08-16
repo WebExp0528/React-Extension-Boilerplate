@@ -1,4 +1,5 @@
 import { runtime, tabs, Tabs, Runtime } from 'webextension-polyfill';
+import localforage from 'localforage';
 
 /**
  * Define background script functions
@@ -6,8 +7,11 @@ import { runtime, tabs, Tabs, Runtime } from 'webextension-polyfill';
  */
 class Background {
     _port: number;
+    _blacklist: string[];
+
     constructor() {
         this.init();
+        this._blacklist = [];
     }
 
     /**
@@ -44,6 +48,7 @@ class Background {
      * Message Handler Function
      *
      * @param message
+     * @param message.type (get_blacklist | is_blacklisted | add_to_blacklist | remove_from_blacklist)
      * @param sender
      * @returns
      */
@@ -51,8 +56,49 @@ class Background {
         try {
             console.log('[===== Received message =====]', message, sender);
             switch (message.type) {
+                case 'get_blacklist':
+                    const blacklist = await localforage.getItem('blacklist');
+                    // @ts-ignore
+                    this._blacklist = blacklist;
+                    return {
+                        type: 'SUCCESS',
+                        data: this._blacklist,
+                    };
+                case 'is_blacklisted':
+                    return {
+                        type: 'SUCCESS',
+                        data: this._blacklist.includes(message.data),
+                    };
+                case 'add_to_blacklist':
+                    if (!this._blacklist.includes(message.data)) {
+                        this._blacklist.push(message.data);
+                        await localforage.setItem('blacklist', this._blacklist);
+                        return {
+                            type: 'SUCCESS',
+                            data: this._blacklist,
+                        };
+                    }
+                    return false;
+                case 'remove_from_blacklist':
+                    this._blacklist.splice(this._blacklist.indexOf(message.data), 1);
+                    await localforage.setItem('blacklist', this._blacklist);
+                    return {
+                        type: 'SUCCESS',
+                        data: this._blacklist,
+                    };
+                case 'set_blacklist':
+                    this._blacklist = message.data;
+                    await localforage.setItem('blacklist', message.data);
+                    return {
+                        type: 'SUCCESS',
+                        data: this._blacklist,
+                    };
+                default:
+                    return {
+                        type: 'FAILED',
+                        data: `Unknown Message Type: ${message.type}`,
+                    };
             }
-            return true; // result to reply
         } catch (error) {
             console.log('[===== Error in MessageListener =====]', error);
             return error;
@@ -84,7 +130,7 @@ class Background {
      * @param {*} tab
      */
     onUpdatedTab = (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
-        console.log('[===== Tab Created =====]', tabId);
+        console.log('[===== Tab Updated =====]', tabId);
     };
 
     /**

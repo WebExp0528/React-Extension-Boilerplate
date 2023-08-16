@@ -1,7 +1,7 @@
 {
-    "name": "test",
-    "version": "3.0.0",
-    "description": "Boilerplate for Chrome, FF, Opera extension",
+    "name": "recipe-filter-redux",
+    "version": "1.0.0",
+    "description": "A tool to skip straight to the recipe on blog based sites",
     "main": "webpack.config.js",
     "scripts": {
         "dev:chrome": "cross-env NODE_ENV=development TARGET=chrome webpack",
@@ -26,6 +26,8 @@
     },
     "author": "Web Dev",
     "dependencies": {
+        "bootstrap": "^5.3.1",
+        "bootstrap-icons": "^1.10.5",
         "clean-webpack-plugin": "^4.0.0",
         "copy-webpack-plugin": "^11.0.0",
         "core-js": "^3.22.5",
@@ -34,10 +36,12 @@
         "deepmerge": "^4.2.2",
         "dotenv": "^16.0.1",
         "html-webpack-plugin": "^5.5.0",
-        "node-sass": "^7.0.1",
+        "localforage": "^1.10.0",
         "prop-types": "^15.8.1",
         "react": "^18.1.0",
+        "react-bootstrap": "^2.8.0",
         "react-dom": "^18.1.0",
+        "sass": "^1.65.1",
         "sass-loader": "^13.0.0",
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "^5.3.1",

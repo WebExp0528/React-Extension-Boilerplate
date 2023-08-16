@@ -7,12 +7,8 @@ export const onRequest = async (
     console.log('~~~~~~~', msg);
     try {
         switch (msg.type) {
-            case 'CHANGE_COLOR': {
-                document.body.style.background = msg?.data?.color;
-                break;
-            }
             default:
-                return { type: 'SUCCESS' };
+                return { type: 'FAILED', data: 'Unknown message type' };
         }
     } catch (error) {
         throw error;

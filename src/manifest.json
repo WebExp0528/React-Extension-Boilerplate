@@ -1,13 +1,10 @@
 {
-  "name": "__MSG_appName__",
-  "author": "WebDEV",
-  "version": "3.0",
+  "name": "Recipe Filter Redux",
+  "author": "Michael Faith",
+  "version": "1.0.0",
   "manifest_version": 3,
-  "description": "__MSG_appDescription__",
+  "description": "A tool to skip straight to the recipe on blog based sites",
   "icons": {
-    "16": "assets/icons/icon-16.png",
-    "24": "assets/icons/icon-24.png",
-    "64": "assets/icons/icon-64.png",
     "128": "assets/icons/icon-128.png"
   },
   "default_locale": "en",
@@ -15,8 +12,7 @@
   "host_permissions": ["http://*/*", "https://*/*"],
   "action": {
     "default_icon": {
-      "16": "assets/icons/icon-16.png",
-      "48": "assets/icons/icon-48.png"
+      "128": "assets/icons/icon-128.png"
     },
     "default_title": "Extension Boilerplate"
   },
