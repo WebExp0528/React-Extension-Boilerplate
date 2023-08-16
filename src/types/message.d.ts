@@ -1,6 +1,6 @@
-// declare type EXTMessageType = 'CHANGE_COLOR';
+declare type EXTMessageType = 'CHANGE_COLOR';
 
-declare type EXTMessage<T = any | boolean | string[]> = {
-    type: string;
+declare type EXTMessage<T = any> = {
+    type: EXTMessageType;
     data?: T;
 };

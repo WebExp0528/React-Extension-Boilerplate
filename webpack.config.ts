@@ -35,7 +35,7 @@ let generalConfig: any = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.(css|less|scss)$/,
+                test: /\.scss$/,
                 use: [
                     {
                         loader: 'style-loader',
