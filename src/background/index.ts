@@ -65,7 +65,7 @@ class Background {
      * @param msg
      */
     onMessageFromExtension = (msg: EXTMessage) => {
-        console.log('[===== Message from Long Live Connection =====]');
+        console.log('[===== Message from Long Live Connection =====]', msg);
     };
 
     /**
@@ -84,7 +84,7 @@ class Background {
      * @param {*} tab
      */
     onUpdatedTab = (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
-        console.log('[===== Tab Created =====]', tabId);
+        console.log('[===== Tab Created =====]', tabId, changeInfo, tab);
     };
 
     /**

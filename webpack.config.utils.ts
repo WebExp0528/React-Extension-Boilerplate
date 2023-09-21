@@ -64,7 +64,7 @@ const EnvConfig: EnvironmentConfig = {
 export const getHTMLPlugins = (
     browserDir: string,
     outputDir = Directories.DEV_DIR,
-    sourceDir = Directories.SRC_DIR
+    sourceDir = Directories.SRC_DIR,
 ) => [
     new HtmlWebpackPlugin({
         title: 'Popup',
@@ -132,7 +132,7 @@ export const getEntry = (sourceDir = Directories.SRC_DIR) => {
 export const getCopyPlugins = (
     browserDir: string,
     outputDir = Directories.DEV_DIR,
-    sourceDir = Directories.SRC_DIR
+    sourceDir = Directories.SRC_DIR,
 ) => {
     return [
         new CopyWebpackPlugin({
